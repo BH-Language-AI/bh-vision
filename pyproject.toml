@@ -1,21 +1,43 @@
+[project]
+name = "bh-vision-training"
+version = "0.1.0"
+description = "Vision-only LoRA/QLoRA adapter za bosanski VLM (odvojeno od text-only AgentMujo-Training)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "BH-Language-AI" }]
+keywords = ["vision", "bosnian", "ocr", "lora", "vlm"]
+dependencies = [
+    "pyyaml>=6.0",
+    "jsonschema>=4.0",
+    "huggingface-hub>=0.25",
+    "datasets>=3.0",
+]
+
+[project.optional-dependencies]
+train = [
+    "torch>=2.3",
+    "transformers>=4.52,<5.23",
+    "trl>=0.15",
+    "peft>=0.14",
+    "accelerate>=0.33",
+    "bitsandbytes>=0.43",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+]
+eval = [
+    "scikit-learn>=1.3",
+]
+
 [build-system]
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
-[project]
-name = "bh-vision"
-version = "0.1.0"
-description = "BH-Vision: vizuelni AI za bosanski i Balkan"
-requires-python = ">=3.10"
-dependencies = ["pillow", "huggingface-hub", "pyyaml"]
-
-[project.optional-dependencies]
-train = ["torch", "transformers>=4.52", "trl>=0.15", "peft>=0.14", "accelerate", "bitsandbytes", "datasets"]
-dev = ["pytest"]
-
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.ruff]
+line-length = 100
+target-version = "py310"
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
 testpaths = ["tests"]
