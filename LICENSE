@@ -1,0 +1,15 @@
+Apache License 2.0 — BH-Vision
+Copyright (c) 2026 BH-Language-AI.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this project except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+VLM backbone modeli (SmolVLM2, Idefics3, Pixtral, Qwen2.5-VL, Gemma)
+podliježu SVOJIM licencama — prije redistribucije adaptiranih težina
+provjeriti uslove licence backbonea i navesti ga u model cardu.
+Posebno: Idefics3/Llama-3.1 (Meta licenca) i Gemma (click-through)
+nisu Apache-2.0. Salamandra-VL (RAIL research-only) isključivo
+za istraživačko poređenje, ne za proizvod.

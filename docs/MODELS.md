@@ -1,6 +1,6 @@
 # BH-Vision — Faza 0/1: nalazi i odluke
 
-Datum: 2026-11-11. Detalji: `reports/research/2026-11-11-vision-models.md`, `2026-11-11-vision-datasets.md`.
+Datum: 2026-11-11. Detalji: `docs/MODELS.md`, `docs/DATASETS.md`.
 
 ## Modeli (svi Apache-2.0 osim navedenog; bs/hr/sr NIGDJE dokumentiran)
 - Najlakši: **SmolVLM2-256M/500M** (1.4–5GB VRAM, video+slika)
