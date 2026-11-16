@@ -45,9 +45,9 @@ def fmt(ex):
     return {"text": proc.apply_chat_template(ex["messages"], tokenize=False), "images": ex["images"]}
 ds = ds.map(fmt, remove_columns=[c for c in ds.column_names if c != "images"])
 
-args = SFTConfig(output_dir="/kaggle/working/output", num_train_epochs=2,
+args = SFTConfig(output_dir="/kaggle/working/output", num_train_epochs=1,
                  learning_rate=1.5e-4, per_device_train_batch_size=1,
-                 gradient_accumulation_steps=32, logging_steps=10, save_steps=60,
+                 gradient_accumulation_steps=32, logging_steps=5, save_steps=30,
                  max_length=None, dataset_text_field="text", remove_unused_columns=False)
 trainer = SFTTrainer(model=model, train_dataset=ds, args=args,
                      peft_config=LoraConfig(r=32, lora_alpha=64, lora_dropout=0.05,
