@@ -1,4 +1,6 @@
-"""BH-Vision PRVI TRENING: SmolVLM2-2.2B QLoRA na cijelom v02 (1961 train), 2 epohe. Verzije pinovane (tf 5.22.2)."""
+"""BH-Vision PRVI TRENING: SmolVLM2-2.2B QLoRA na cijelom v03 (1962 train), 2 epohe. Verzije pinovane (tf 5.22.2)."""
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # mora prije torch importa; jedan GPU — auto split lomi pixel_values
 import subprocess, sys
 
 def sh(cmd):
@@ -16,8 +18,6 @@ BASE = snapshot_download("HuggingFaceTB/SmolVLM2-2.2B-Instruct")
 DATA = snapshot_download("BH-Language-AI/bs-vision-train-v03", repo_type="dataset", allow_patterns=["data/synth3/*"])
 print("base:", BASE, "\ndata:", DATA, flush=True)
 
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # jedan GPU — auto split lomi pixel_values
 from datasets import load_dataset
 from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndBytesConfig
 from peft import LoraConfig
@@ -56,4 +56,5 @@ trainer = SFTTrainer(model=model, train_dataset=ds, args=args,
 res = trainer.train()
 print("TRENING GOTOV — final loss:", res.training_loss, flush=True)
 model.save_pretrained("/kaggle/working/output/adapter-smo2b-v1")
+proc.save_pretrained("/kaggle/working/output/adapter-smo2b-v1")
 print("adapter sacuvan", flush=True)
