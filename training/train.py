@@ -24,12 +24,18 @@ def main():
     ap.add_argument("--config", required=True)
     ap.add_argument("--train", required=True)
     ap.add_argument("--out", default="releases/adapter-v01")
+    ap.add_argument("--quant", default="4bit", choices=["4bit", "none"],
+                    help="4bit = bitsandbytes (CUDA); none = bf16 LoRA (LUMI ROCm / CPU)")
     a = ap.parse_args()
     c = yaml.safe_load(open(a.config))
 
-    bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
-    model = AutoModelForImageTextToText.from_pretrained(
-        c["base_model"], quantization_config=bnb, device_map="auto")
+    if a.quant == "4bit":
+        bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
+        model = AutoModelForImageTextToText.from_pretrained(
+            c["base_model"], quantization_config=bnb, device_map={"": 0} if torch.cuda.is_available() else "auto")
+    else:
+        dt = torch.bfloat16 if torch.cuda.is_available() else torch.float32
+        model = AutoModelForImageTextToText.from_pretrained(c["base_model"], dtype=dt)
     proc = AutoProcessor.from_pretrained(c["base_model"])
     if c.get("freeze_vision_encoder") and hasattr(model, "vision_model"):
         for p in model.vision_model.parameters():
