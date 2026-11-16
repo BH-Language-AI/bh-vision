@@ -22,6 +22,13 @@ from datasets import load_dataset
 from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndBytesConfig
 from peft import LoraConfig
 from trl import SFTConfig, SFTTrainer
+import torch.nn.functional as F
+
+def ce_loss(outputs, labels, num_items_in_batch):
+    logits = outputs.logits.float()
+    sl = logits[..., :-1, :].contiguous()
+    lb = labels[..., 1:].contiguous()
+    return F.cross_entropy(sl.view(-1, sl.size(-1)), lb.view(-1), ignore_index=-100)
 
 bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
 model = AutoModelForImageTextToText.from_pretrained(BASE, quantization_config=bnb, device_map={"": 0})
@@ -45,7 +52,7 @@ args = SFTConfig(output_dir="/kaggle/working/output", num_train_epochs=2,
 trainer = SFTTrainer(model=model, train_dataset=ds, args=args,
                      peft_config=LoraConfig(r=32, lora_alpha=64, lora_dropout=0.05,
                                             target_modules="all-linear", task_type="CAUSAL_LM"),
-                     processing_class=proc)
+                     processing_class=proc, compute_loss_func=ce_loss)
 res = trainer.train()
 print("TRENING GOTOV — final loss:", res.training_loss, flush=True)
 model.save_pretrained("/kaggle/working/output/adapter-smo2b-v1")

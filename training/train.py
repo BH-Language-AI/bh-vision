@@ -7,6 +7,15 @@ from datasets import load_dataset
 from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndBytesConfig
 from peft import LoraConfig
 from trl import SFTConfig, SFTTrainer
+import torch.nn.functional as F
+
+
+def ce_loss(outputs, labels, num_items_in_batch):
+    # Obican CE umjesto TRL fused kernela (fused trazi sm>=8.0 i puca i na ROCm-u).
+    logits = outputs.logits.float()
+    sl = logits[..., :-1, :].contiguous()
+    lb = labels[..., 1:].contiguous()
+    return F.cross_entropy(sl.view(-1, sl.size(-1)), lb.view(-1), ignore_index=-100)
 import torch
 
 
@@ -41,7 +50,7 @@ def main():
                      per_device_train_batch_size=1, gradient_accumulation_steps=32,
                      max_length=None, dataset_text_field="text", remove_unused_columns=False)
     SFTTrainer(model=model, train_dataset=ds, args=args, peft_config=lora,
-               processing_class=proc).train()
+               processing_class=proc, compute_loss_func=ce_loss).train()
     print("adapter sacuvan u", a.out)
 
 

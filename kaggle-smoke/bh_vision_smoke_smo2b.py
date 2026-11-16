@@ -23,6 +23,13 @@ from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndByte
 from peft import LoraConfig
 from trl import SFTConfig, SFTTrainer
 
+def ce_loss(outputs, labels, num_items_in_batch):
+    import torch.nn.functional as F
+    logits = outputs.logits.float()
+    sl = logits[..., :-1, :].contiguous()
+    lb = labels[..., 1:].contiguous()
+    return F.cross_entropy(sl.view(-1, sl.size(-1)), lb.view(-1), ignore_index=-100)
+
 ds = load_dataset("json", data_files=f"{DATA}/data/synth2/train.jsonl", split="train").select(range(32))
 # preusmjeri relativne putanje slika na skinuti snapshot
 def fix(ex):
@@ -48,7 +55,7 @@ args = SFTConfig(output_dir="/kaggle/working/output", max_steps=20,
 trainer = SFTTrainer(model=model, train_dataset=ds, args=args,
                      peft_config=LoraConfig(r=8, lora_alpha=16, target_modules="all-linear",
                                             task_type="CAUSAL_LM"),
-                     processing_class=proc)
+                     processing_class=proc, compute_loss_func=ce_loss)
 res = trainer.train()
 print("SMOKE OK — final loss:", res.training_loss, flush=True)
 model.save_pretrained("/kaggle/working/output/adapter-smoke")
