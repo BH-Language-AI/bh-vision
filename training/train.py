@@ -54,7 +54,8 @@ def main():
     args = SFTConfig(output_dir=a.out, num_train_epochs=c.get("epochs", 2),
                      learning_rate=c.get("lr", 1.5e-4),
                      per_device_train_batch_size=1, gradient_accumulation_steps=32,
-                     max_length=None, dataset_text_field="text", remove_unused_columns=False)
+                     max_length=None, dataset_text_field="text", remove_unused_columns=False,
+                     use_cpu=not torch.cuda.is_available())
     SFTTrainer(model=model, train_dataset=ds, args=args, peft_config=lora,
                processing_class=proc, compute_loss_func=ce_loss).train()
     print("adapter sacuvan u", a.out)
