@@ -1,91 +1,164 @@
-"""Sinteticki bs trening set: dokumenti (PIL) + chartovi (matplotlib), 100% vlastiti sadrzaj, CC-BY-4.0.
+"""Sinteticki bs trening set v02: dokumenti (PIL) + chartovi (matplotlib), 100% vlastiti sadrzaj, CC-BY-4.0.
+OUT=data/synth2 N_DOC=800 N_CHART=400 prośliruje v01 (novi tipovi: faktura-tabela, izvod, line-chart, vise QA).
 Sadrzi dijakritike ccdzsdj; held-out/proxy setovi se NIKAD ne mijesaju ovdje.
-Izlaz: data/synth/{train,val}.jsonl + data/synth/img/*.jpg (split 90/10, seed 42).
 """
 import json, os, random
-random.seed(42)
+random.seed(int(os.getenv("SEED", "43")))
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
 
-OUT, IMG = "data/synth", "data/synth/img"
+OUT = os.getenv("OUT", "data/synth2")
+IMG = f"{OUT}/img"
+N_DOC, N_CHART = int(os.getenv("N_DOC", "800")), int(os.getenv("N_CHART", "400"))
 os.makedirs(IMG, exist_ok=True)
 FONT = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 26)
 TITLE = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 32)
-MIJESECI = ["januar", "februar", "mart", "april", "maj", "juni"]
-ARTIKLI = ["Hljeb", "Mlijeko", "Kafa", "Šećer", "Čaj", "Džem", "Sir", "Brašno"]
+MIJESECI = ["januar", "februar", "mart", "april", "maj", "juni",
+            "juli", "august", "septembar", "oktobar", "novembar", "decembar"]
+ARTIKLI = ["Hljeb", "Mlijeko", "Kafa", "Šećer", "Čaj", "Džem", "Sir", "Brašno",
+           "Ulje", "Jaja", "Čokolada", "Džus", "Šampon", "Sapun", "Žvake", "Ćevapi"]
+IMENA = ["Šefik Džeko", "Amela Čaušević", "Tarik Hodžić", "Lejla Šabić",
+         "Dženan Ćosić", "Aida Žunić", "Haris Bećirović", "Selma Mujdžić"]
 
 rows = []
 
 
+def save_aug(img, p):
+    if random.random() < 0.3:  # lagana rotacija za robusnost OCR-a
+        img = img.rotate(random.uniform(-1.5, 1.5), resample=Image.BICUBIC, fillcolor="white")
+    img.save(p, quality=72)
+
+
+def qa(img_p, q, a):
+    rows.append({"messages": [
+        {"role": "user", "content": [{"type": "image"}, {"type": "text", "text": q}]},
+        {"role": "assistant", "content": [{"type": "text", "text": a}]}],
+        "images": [img_p]})
+
+
 def doc_racun(i):
-    stavke = random.sample(ARTIKLI, 3)
-    cijene = [round(random.uniform(1, 20), 2) for _ in stavke]
+    stavke = random.sample(ARTIKLI, random.randint(2, 5))
+    cijene = [round(random.uniform(1, 30), 2) for _ in stavke]
     uk = round(sum(cijene) * 1.17, 2)
-    br = 1000 + i
+    br = 2000 + i
     lines = [f"RAČUN br. {br}", "Prodavnica DŽAJIĆ", "Šeherdžikova 12, Sarajevo", ""]
     for a, c in zip(stavke, cijene):
         lines.append(f"{a} — {c:.2f} KM")
-    lines += ["", f"PDV 17% uračunat", f"UKUPNO: {uk:.2f} KM"]
-    img = Image.new("RGB", (800, 600), "white")
+    lines += ["", "PDV 17% uračunat", f"UKUPNO: {uk:.2f} KM"]
+    img = Image.new("RGB", (800, 120 + 55 * len(lines)), "white")
     d = ImageDraw.Draw(img)
     y = 30
     for j, ln in enumerate(lines):
         d.text((40, y), ln, font=TITLE if j == 0 else FONT, fill="black")
         y += 55
     p = f"{IMG}/doc{i:04d}.jpg"
-    img.save(p, quality=75)
-    gold = f"{uk:.2f} KM"
-    rows.append({"messages": [
-        {"role": "user", "content": [{"type": "image"}, {"type": "text", "text": "Koliki je ukupan iznos na računu? Odgovori samo iznosom."}]},
-        {"role": "assistant", "content": [{"type": "text", "text": gold}]}],
-        "images": [p]})
+    save_aug(img, p)
+    qa(p, "Koliki je ukupan iznos na računu? Odgovori samo iznosom.", f"{uk:.2f} KM")
+    if random.random() < 0.5:
+        qa(p, "Koji je broj računa? Odgovori samo brojem.", str(br))
+    if random.random() < 0.4:
+        qa(p, "Koliko stavki ima račun? Odgovori samo brojem.", str(len(stavke)))
+
+
+def doc_faktura(i):
+    stavke = random.sample(ARTIKLI, random.randint(3, 5))
+    cijene = [round(random.uniform(2, 40), 2) for _ in stavke]
+    br = 5000 + i
+    lines = [f"FAKTURA br. {br}", "Dobavljač: ŽITOPROMET", "Čekrkčića 5, Tuzla", ""]
+    for a, c in zip(stavke, cijene):
+        lines.append(f"{a} | 1 kom | {c:.2f} KM")
+    img = Image.new("RGB", (800, 120 + 55 * len(lines)), "white")
+    d = ImageDraw.Draw(img)
+    y = 30
+    for j, ln in enumerate(lines):
+        d.text((40, y), ln, font=TITLE if j == 0 else FONT, fill="black")
+        y += 55
+    p = f"{IMG}/doc{i:04d}.jpg"
+    save_aug(img, p)
+    k = random.randrange(len(stavke))
+    qa(p, f"Kolika je cijena za {stavke[k]}? Odgovori samo iznosom.", f"{cijene[k]:.2f} KM")
+    qa(p, "Koliko stavki ima faktura? Odgovori samo brojem.", str(len(stavke)))
 
 
 def doc_obavijest(i):
-    naslov = random.choice(["OBAVJEŠTENJE", "POTVRDA", "OPOMENA"])
-    ime = random.choice(["Šefik Džeko", "Amela Čaušević", "Tarik Hodžić", "Lejla Šabić"])
-    lines = [naslov, f"Građanin: {ime}", "Šalter 3, prizemlje", "Ponesite ličnu kartu i dokaz o uplati."]
-    img = Image.new("RGB", (800, 500), "white")
+    naslov = random.choice(["OBAVJEŠTENJE", "POTVRDA", "OPOMENA", "RJEŠENJE"])
+    ime = random.choice(IMENA)
+    salter = random.randint(1, 6)
+    lines = [naslov, f"Građanin: {ime}", f"Šalter {salter}, prizemlje", "Ponesite ličnu kartu i dokaz o uplati."]
+    img = Image.new("RGB", (800, 420), "white")
     d = ImageDraw.Draw(img)
     y = 30
     for j, ln in enumerate(lines):
         d.text((40, y), ln, font=TITLE if j == 0 else FONT, fill="black")
         y += 60
     p = f"{IMG}/doc{i:04d}.jpg"
-    img.save(p, quality=75)
-    rows.append({"messages": [
-        {"role": "user", "content": [{"type": "image"}, {"type": "text", "text": "Prepiši naslov dokumenta."}]},
-        {"role": "assistant", "content": [{"type": "text", "text": naslov}]}],
-        "images": [p]})
+    save_aug(img, p)
+    qa(p, "Prepiši naslov dokumenta.", naslov)
+    if random.random() < 0.5:
+        qa(p, "Kako se zove građanin? Odgovori samo imenom.", ime)
 
 
-def chart(i):
-    vals = [random.randint(5, 50) for _ in MIJESECI]
+def doc_izvod(i):
+    stanje = round(random.uniform(100, 9000), 2)
+    br = 700000 + i
+    lines = ["IZVOD br. " + str(br), "Banka: ŠTEDIONICA", f"Račun: {br}", "",
+             f"Stanje: {stanje:.2f} KM", "Dostupno odmah"]
+    img = Image.new("RGB", (800, 480), "white")
+    d = ImageDraw.Draw(img)
+    y = 30
+    for j, ln in enumerate(lines):
+        d.text((40, y), ln, font=TITLE if j == 0 else FONT, fill="black")
+        y += 60
+    p = f"{IMG}/doc{i:04d}.jpg"
+    save_aug(img, p)
+    qa(p, "Koliko je stanje računa? Odgovori samo iznosom.", f"{stanje:.2f} KM")
+
+
+def chart_bar(i, months, vals, tag):
     fig, ax = plt.subplots(figsize=(8, 6))
-    ax.bar(MIJESECI, vals)
+    ax.bar(months, vals)
     ax.set_ylabel("Prodaja (KM)")
     ax.set_title(f"Prodaja po mjesecima — {2024 + (i % 3)}.")
-    p = f"{IMG}/chart{i:04d}.jpg"
+    p = f"{IMG}/{tag}{i:04d}.jpg"
     fig.savefig(p)
     plt.close(fig)
-    best = MIJESECI[vals.index(max(vals))]
-    rows.append({"messages": [
-        {"role": "user", "content": [{"type": "image"}, {"type": "text", "text": "Koji mjesec ima najveću prodaju? Odgovori samo imenom mjeseca."}]},
-        {"role": "assistant", "content": [{"type": "text", "text": best}]}],
-        "images": [p]})
-    m = random.choice(MIJESECI)
-    rows.append({"messages": [
-        {"role": "user", "content": [{"type": "image"}, {"type": "text", "text": f"Kolika je prodaja za {m}? Odgovori samo brojem."}]},
-        {"role": "assistant", "content": [{"type": "text", "text": str(vals[MIJESECI.index(m)])}]}],
-        "images": [p]})
+    best = months[vals.index(max(vals))]
+    qa(p, "Koji mjesec ima najveću prodaju? Odgovori samo imenom mjeseca.", best)
+    m = random.choice(months)
+    qa(p, f"Kolika je prodaja za {m}? Odgovori samo brojem.", str(vals[months.index(m)]))
+    if random.random() < 0.5:
+        qa(p, "Kolika je razlika između najveće i najmanje prodaje? Odgovori samo brojem.",
+           str(max(vals) - min(vals)))
 
 
-for i in range(200):
-    (doc_racun if i % 2 == 0 else doc_obavijest)(i)
-for i in range(200, 300):
-    chart(i)
+def chart_line(i, months, vals, tag):
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.plot(months, vals, marker="o")
+    ax.set_ylabel("Temperatura (°C)")
+    ax.set_title(f"Srednja temperatura — {2024 + (i % 3)}.")
+    plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
+    p = f"{IMG}/{tag}{i:04d}.jpg"
+    fig.savefig(p, bbox_inches="tight")
+    plt.close(fig)
+    worst = months[vals.index(min(vals))]
+    qa(p, "Koji mjesec je najhladniji? Odgovori samo imenom mjeseca.", worst)
+    m = random.choice(months)
+    qa(p, f"Kolika je temperatura za {m}? Odgovori samo brojem.", str(vals[months.index(m)]))
+
+
+fns = [doc_racun, doc_faktura, doc_obavijest, doc_izvod]
+for i in range(N_DOC):
+    fns[i % 4](i)
+for i in range(N_DOC, N_DOC + N_CHART):
+    months = random.sample(MIJESECI, 6)
+    vals = [random.randint(5, 60) for _ in months]
+    if i % 2 == 0:
+        chart_bar(i, months, vals, "chart")
+    else:
+        chart_line(i, months, [random.randint(-5, 30) for _ in months], "chart")
+
 random.shuffle(rows)
 k = int(len(rows) * 0.9)
 for name, part in (("train", rows[:k]), ("val", rows[k:])):
