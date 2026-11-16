@@ -7,6 +7,7 @@ from datasets import load_dataset
 from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndBytesConfig
 from peft import LoraConfig
 from trl import SFTConfig, SFTTrainer
+import torch
 import torch.nn.functional as F
 
 
@@ -16,7 +17,6 @@ def ce_loss(outputs, labels, num_items_in_batch):
     sl = logits[..., :-1, :].contiguous()
     lb = labels[..., 1:].contiguous()
     return F.cross_entropy(sl.view(-1, sl.size(-1)), lb.view(-1), ignore_index=-100)
-import torch
 
 
 def main():
@@ -54,10 +54,14 @@ def main():
     args = SFTConfig(output_dir=a.out, num_train_epochs=c.get("epochs", 2),
                      learning_rate=c.get("lr", 1.5e-4),
                      per_device_train_batch_size=1, gradient_accumulation_steps=32,
+                     logging_steps=10, save_steps=60, save_total_limit=2,
                      max_length=None, dataset_text_field="text", remove_unused_columns=False,
                      use_cpu=not torch.cuda.is_available())
-    SFTTrainer(model=model, train_dataset=ds, args=args, peft_config=lora,
-               processing_class=proc, compute_loss_func=ce_loss).train()
+    trainer = SFTTrainer(model=model, train_dataset=ds, args=args, peft_config=lora,
+                         processing_class=proc, compute_loss_func=ce_loss)
+    trainer.train()
+    model.save_pretrained(a.out)
+    proc.save_pretrained(a.out)
     print("adapter sacuvan u", a.out)
 
 
