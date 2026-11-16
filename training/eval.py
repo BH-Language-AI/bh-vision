@@ -9,18 +9,22 @@ from PIL import Image
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--adapter", required=True)
+    ap.add_argument("--adapter", default=None, help="opcionalno; bez njega se evaluira cisti base (baseline)")
     ap.add_argument("--base", required=True)
     ap.add_argument("--eval", required=True)
+    ap.add_argument("--max-samples", type=int, default=0, help="0 = svi")
     a = ap.parse_args()
     proc = AutoProcessor.from_pretrained(a.base)
     model = AutoModelForImageTextToText.from_pretrained(a.base, device_map="auto")
-    model = PeftModel.from_pretrained(model, a.adapter)
+    if a.adapter:
+        model = PeftModel.from_pretrained(model, a.adapter)
     ok, n = 0, 0
     for line in open(a.eval):
         line = line.strip()
         if not line:
             continue
+        if a.max_samples and n >= a.max_samples:
+            break
         ex = json.loads(line)
         msgs, gold = ex["messages"][:-1], ex["messages"][-1]["content"][0]["text"]
         imgs = [Image.open(p).convert("RGB") for p in ex["images"]]
