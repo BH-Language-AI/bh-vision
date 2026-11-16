@@ -31,11 +31,13 @@ def main():
         text = proc.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
         inp = proc(text=text, images=imgs, return_tensors="pt").to(model.device)
         out = model.generate(**inp, max_new_tokens=64)
-        pred = proc.decode(out[0][inp["input_ids"].shape[1]:]).strip()
+        pred = proc.decode(out[0][inp["input_ids"].shape[1]:], skip_special_tokens=True)
         n += 1
-        ok += (pred == gold.strip())
-        print(f"[{n}] gold={gold.strip()!r} pred={pred!r}")
-    print(f"exact-match: {ok}/{n} = {ok/max(n,1):.3f}")
+        norm = lambda s: s.strip().rstrip(".").casefold()
+        hit = norm(pred) == norm(gold.strip())
+        ok += hit
+        print(f"[{n}] gold={gold.strip()!r} pred={pred.strip()!r} {'OK' if hit else '--'}", flush=True)
+    print(f"exact-match (normalized): {ok}/{n} = {ok/max(n,1):.3f}")
 
 
 if __name__ == "__main__":
