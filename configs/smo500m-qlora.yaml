@@ -1,0 +1,11 @@
+# SmolVLM2-500M QLoRA — laki/edge start (T4-16GB OK)
+base_model: HuggingFaceTB/SmolVLM2-500M-Video-Instruct
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true # prva iteracija; odmrznuti zadnje slojeve tek ako OCR/chart podbaci
+lr: 2.0e-4
+epochs: 2
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train

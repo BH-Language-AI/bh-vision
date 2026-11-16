@@ -7,7 +7,11 @@ name = "bh-vision"
 version = "0.1.0"
 description = "BH-Vision: vizuelni AI za bosanski i Balkan"
 requires-python = ">=3.10"
-dependencies = ["pillow", "huggingface-hub"]
+dependencies = ["pillow", "huggingface-hub", "pyyaml"]
+
+[project.optional-dependencies]
+train = ["torch", "transformers>=4.52", "trl>=0.15", "peft>=0.14", "accelerate", "bitsandbytes", "datasets"]
+dev = ["pytest"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

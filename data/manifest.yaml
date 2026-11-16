@@ -1,0 +1,7 @@
+# Manifest izvora za BH-Vision Gen 1 trening — QC cita OBA sloja prava prije treninga.
+sources:
+  - {name: PubLayNet, use: layout-tehnika, annotations: CDLA-Permissive-1.0, images: PMC-OA-commercial-use}
+  - {name: PlotQA, use: chart-qa-tehnika, annotations: CC-BY-4.0-MIT, images: sinteticke}
+  - {name: XM3600-hr, use: proxy-eval-samo, annotations: CC-BY-4.0, note: NIKAD u train}
+  - {name: postocr-sr, use: proxy-eval-samo, annotations: CC-BY-4.0, note: NIKAD u train}
+  - {name: bs-vision-ocr-heldout-v01, use: held-out-eval, note: NIKAD u train, status: prazan-placeholder}

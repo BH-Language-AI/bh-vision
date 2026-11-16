@@ -1,0 +1,11 @@
+# SmolVLM2-2.2B QLoRA — generalni start (L4-24GB; T4 knap bs1)
+base_model: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+method: qlora-4bit
+lora: {r: 32, alpha: 64, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 1.5e-4
+epochs: 2
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train
