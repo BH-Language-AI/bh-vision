@@ -7,6 +7,8 @@ def sh(cmd):
 
 sh("pip install -q transformers==5.22.2 trl==1.18.0 peft==0.21.2 accelerate datasets pillow huggingface_hub num2words bitsandbytes 2>&1 | tail -1")
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # jedan GPU — auto split lomi pixel_values
 import torch
 print("cuda:", torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else "-", flush=True)
 assert torch.cuda.is_available(), "nema GPU-a, prekidam"
@@ -29,7 +31,7 @@ def fix(ex):
 ds = ds.map(fix)
 
 bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
-model = AutoModelForImageTextToText.from_pretrained(BASE, quantization_config=bnb, device_map="auto")
+model = AutoModelForImageTextToText.from_pretrained(BASE, quantization_config=bnb, device_map={"": 0})
 proc = AutoProcessor.from_pretrained(BASE)
 if hasattr(model, "vision_model"):
     for p in model.vision_model.parameters():

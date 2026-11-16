@@ -16,13 +16,15 @@ BASE = snapshot_download("HuggingFaceTB/SmolVLM2-2.2B-Instruct")
 DATA = snapshot_download("BH-Language-AI/bs-vision-train-v02", repo_type="dataset", allow_patterns=["data/synth2/*"])
 print("base:", BASE, "\ndata:", DATA, flush=True)
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # jedan GPU — auto split lomi pixel_values
 from datasets import load_dataset
 from transformers import AutoModelForImageTextToText, AutoProcessor, BitsAndBytesConfig
 from peft import LoraConfig
 from trl import SFTConfig, SFTTrainer
 
 bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
-model = AutoModelForImageTextToText.from_pretrained(BASE, quantization_config=bnb, device_map="auto")
+model = AutoModelForImageTextToText.from_pretrained(BASE, quantization_config=bnb, device_map={"": 0})
 proc = AutoProcessor.from_pretrained(BASE)
 if hasattr(model, "vision_model"):
     for p in model.vision_model.parameters():
