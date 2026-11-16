@@ -17,3 +17,10 @@ Bosanski OCR (čćdžšđ), bs forme/zakoni/tabele kao slike, chart QA na bs/hr/
 
 ## Preporuka
 Tehnike na čistim engleskim (PubLayNet/PlotQA), eval proxy hr/sr (XM3600-hr, postocr-sr), za bosanski prikupiti vlastiti mali held-out set. Prije komercijalnog treninga čitati OBA sloja prava (anotacije + slike).
+
+## Vlastiti trening setovi (2026-11-16, CC-BY-4.0, sintetički)
+- `bs-vision-train-v01` — 400 uzoraka (360/40). Zastario.
+- `bs-vision-train-v02` — 2179 uzoraka. Zastario: split po redu → 161 slika curi u oba splita.
+- `bs-vision-train-v03` — 2179 uzoraka (1962/217), split PO SLICI, 0 preklapanja. AKTUELAN za trening.
+- Held-out `bs-vision-ocr-heldout-v01` — prazan placeholder, NIKAD u train.
+Generator: `scripts/make_synth_bs.py` (seed 43). Svi na https://huggingface.co/datasets/BH-Language-AI.
