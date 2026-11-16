@@ -13,7 +13,7 @@ assert torch.cuda.is_available(), "nema GPU-a, prekidam"
 
 from huggingface_hub import snapshot_download
 BASE = snapshot_download("HuggingFaceTB/SmolVLM2-2.2B-Instruct")
-DATA = snapshot_download("BH-Language-AI/bs-vision-train-v02", repo_type="dataset", allow_patterns=["data/synth2/*"])
+DATA = snapshot_download("BH-Language-AI/bs-vision-train-v03", repo_type="dataset", allow_patterns=["data/synth3/*"])
 print("base:", BASE, "\ndata:", DATA, flush=True)
 
 import os
@@ -37,7 +37,7 @@ if hasattr(model, "vision_model"):
     for p in model.vision_model.parameters():
         p.requires_grad = False
 
-ds = load_dataset("json", data_files=f"{DATA}/data/synth2/train.jsonl", split="train")
+ds = load_dataset("json", data_files=f"{DATA}/data/synth3/train.jsonl", split="train")
 ds = ds.map(lambda ex: {"images": [f"{DATA}/{p}" for p in ex["images"]]})
 print("train rows:", len(ds), flush=True)
 

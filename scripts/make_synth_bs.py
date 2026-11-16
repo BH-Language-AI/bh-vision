@@ -159,10 +159,18 @@ for i in range(N_DOC, N_DOC + N_CHART):
     else:
         chart_line(i, months, [random.randint(-5, 30) for _ in months], "chart")
 
-random.shuffle(rows)
-k = int(len(rows) * 0.9)
-for name, part in (("train", rows[:k]), ("val", rows[k:])):
+from collections import defaultdict
+groups = defaultdict(list)
+for r in rows:
+    groups[r["images"][0]].append(r)
+glist = list(groups.values())
+random.shuffle(glist)
+k = int(len(glist) * 0.9)
+train_g, val_g = glist[:k], glist[k:]
+for name, part in (("train", train_g), ("val", val_g)):
+    flat = [r for g in part for r in g]
     with open(f"{OUT}/{name}.jsonl", "w") as f:
-        for r in part:
+        for r in flat:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-print(f"gotovo: train={len(rows[:k])} val={len(rows[k:])} slika={len(set(sum([r['images'] for r in rows], [])))}")
+n_tr = sum(len(g) for g in train_g); n_va = sum(len(g) for g in val_g)
+print(f"gotovo: train={n_tr} val={n_va} slika={len(groups)} (split po slici, bez curenja)")
