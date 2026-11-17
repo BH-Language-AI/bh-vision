@@ -26,7 +26,7 @@ export SINGULARITYENV_TMPDIR="$TMPDIR"
 export SINGULARITYENV_PYTHONPATH="$PYLIBS"
 cd "$JOBDIR"
 srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
-  python -u /job/training/eval.py 
+  python -u /job/training/eval.py \
     --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval /job/data/synth3/val.jsonl \
     --max-samples "$MAXN" --out /job/out/eval-base-2b-v1.json
 echo EVAL_DONE
