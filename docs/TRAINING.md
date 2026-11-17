@@ -15,5 +15,11 @@
 ## Baseline (2026-11-16, CPU, netreniran 2.2B, v03-val 10 uzoraka): 7/10 normalized
 - OCR iznosi savršeni; chart max/min griješi (august→Juli, 35→40, 40→30).
 
+## Mini 500M (2026-11-17) — negativan rezultat
+- Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
+- Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
+- Netrenirani 2.2B baseline na istim tipovima: 7/10. Zaključak: 500M-video je preslab i/ili 24 koraka premalo — nije presuda za 2.2B put.
+- Sljedeći GPU: Kaggle kvota se obnavlja 21.11. ili LUMI (treba EFP cert).
+
 ## Verzije (radeće, pinovano)
 `transformers==5.22.2`, `trl==1.18.0`, `peft==0.21.2`. Novije od 5.22 lome SmolVLM2 merge (reshape `[-1,14,2048]`).
