@@ -17,10 +17,14 @@ module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
 export PYLIBS=/scratch/project_465003647/bh-vision/pylibs
-export HF_HUB_CACHE=/scratch/project_465003647/agentmujo/hfcache
+export HF_HUB_CACHE=/scratch/project_465003647/bh-vision/hfcache
+export HF_DATASETS_CACHE=/scratch/project_465003647/bh-vision/hfds
+export TMPDIR=/scratch/project_465003647/bh-vision/tmp
+export SINGULARITYENV_HF_DATASETS_CACHE="$HF_DATASETS_CACHE"
+export SINGULARITYENV_TMPDIR="$TMPDIR"
 export SINGULARITYENV_HF_HUB_CACHE="$HF_HUB_CACHE"
 export SINGULARITYENV_PYTHONPATH="$PYLIBS"
-mkdir -p "$PYLIBS" "$HF_HUB_CACHE"
+mkdir -p "$PYLIBS" "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$TMPDIR"
 # Jednom po projektu (kešira se na scratchu): python zavisnosti u PYLIBS (bez torcha — koristi se kontejnerski ROCm torch; bez bitsandbytes — CUDA-only).
 srun -n1 singularity exec "$SIF" env PYTHONPATH="$PYLIBS" pip install -q --target="$PYLIBS" \
   "transformers==5.22.2" "trl==1.18.0" "peft==0.21.2" datasets pillow huggingface-hub num2words accelerate 2>&1 | tail -1
