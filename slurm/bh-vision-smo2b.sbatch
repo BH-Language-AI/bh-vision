@@ -21,6 +21,9 @@ export HF_HUB_CACHE=/scratch/project_465003647/agentmujo/hfcache
 export SINGULARITYENV_HF_HUB_CACHE="$HF_HUB_CACHE"
 export SINGULARITYENV_PYTHONPATH="$PYLIBS"
 mkdir -p "$PYLIBS" "$HF_HUB_CACHE"
+# Jednom po projektu (kešira se na scratchu): python zavisnosti u PYLIBS (bez torcha — koristi se kontejnerski ROCm torch; bez bitsandbytes — CUDA-only).
+srun -n1 singularity exec "$SIF" env PYTHONPATH="$PYLIBS" pip install -q --target="$PYLIBS" \
+  "transformers==5.22.2" "trl==1.18.0" "peft==0.21.2" datasets pillow huggingface-hub num2words accelerate 2>&1 | tail -1
 srun -n1 singularity exec "$SIF" env PYTHONPATH="$PYLIBS" python -c \
   "import torch; assert 'rocm' in torch.__version__, torch.__version__; print('ROCM-TORCH-OK', torch.__version__)"
 cd "$JOBDIR"
