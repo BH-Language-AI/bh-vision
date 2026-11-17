@@ -13,6 +13,7 @@
 # (job-dir sadrzi training/, configs/, scripts/, data/synth3/ — prekopirati iz BH-Language-AI/bh-vision repoa)
 set -euo pipefail
 JOBDIR="${1:?upotreba: sbatch bh-vision-smo2b.sbatch <job-dir>}"
+CONFIG="${2:-configs/smo2b-qlora.yaml}"
 module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
@@ -37,6 +38,6 @@ srun -n1 singularity exec "$SIF" env PYTHONPATH="$PYLIBS" python -c \
   "import torch; assert 'rocm' in torch.__version__, torch.__version__; print('ROCM-TORCH-OK', torch.__version__)"
 cd "$JOBDIR"
 srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
-  python -u /job/training/train.py --config /job/configs/smo2b-qlora.yaml \
+  python -u /job/training/train.py --config /job/$CONFIG \
     --train /job/data/synth3/train.jsonl --out /job/out/adapter-smo2b-v1 --quant none
 echo TRAIN_DONE
