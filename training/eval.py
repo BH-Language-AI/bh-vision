@@ -13,6 +13,7 @@ def main():
     ap.add_argument("--base", required=True)
     ap.add_argument("--eval", required=True)
     ap.add_argument("--max-samples", type=int, default=0, help="0 = svi")
+    ap.add_argument("--out", default=None, help="opcionalno: snimi rezultate u JSON")
     a = ap.parse_args()
     proc = AutoProcessor.from_pretrained(a.base)
     model = AutoModelForImageTextToText.from_pretrained(a.base, device_map="auto")
@@ -38,6 +39,12 @@ def main():
         ok += hit
         print(f"[{n}] gold={gold.strip()!r} pred={pred.strip()!r} {'OK' if hit else '--'}", flush=True)
     print(f"exact-match (normalized): {ok}/{n} = {ok/max(n,1):.3f}")
+    if a.out:
+        import json as _json
+        with open(a.out, "w") as f:
+            _json.dump({"model": a.adapter or a.base, "eval": a.eval,
+                        "ok": ok, "n": n, "acc": ok/max(n,1)}, f, indent=1)
+        print("snimljeno u", a.out)
 
 
 if __name__ == "__main__":
