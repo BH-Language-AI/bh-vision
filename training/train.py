@@ -60,7 +60,7 @@ def main():
     trainer = SFTTrainer(model=model, train_dataset=ds, args=args, peft_config=lora,
                          processing_class=proc, compute_loss_func=ce_loss)
     trainer.train()
-    model.save_pretrained(a.out)
+    trainer.model.save_pretrained(a.out)  # PeftModel -> adapter, ne puna tezina
     proc.save_pretrained(a.out)
     print("adapter sacuvan u", a.out)
 
