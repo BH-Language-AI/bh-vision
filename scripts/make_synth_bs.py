@@ -131,6 +131,11 @@ def chart_bar(i, months, vals, tag):
     if random.random() < 0.5:
         qa(p, "Kolika je razlika između najveće i najmanje prodaje? Odgovori samo brojem.",
            str(max(vals) - min(vals)))
+    if random.random() < 0.5:  # v04: ciljano gusce — min mjesec + jos jedna vrijednost
+        worst = months[vals.index(min(vals))]
+        qa(p, "Koji mjesec ima najmanju prodaju? Odgovori samo imenom mjeseca.", worst)
+        m2 = random.choice(months)
+        qa(p, f"Kolika je prodaja za {m2}? Odgovori samo brojem.", str(vals[months.index(m2)]))
 
 
 def chart_line(i, months, vals, tag):
@@ -146,6 +151,11 @@ def chart_line(i, months, vals, tag):
     qa(p, "Koji mjesec je najhladniji? Odgovori samo imenom mjeseca.", worst)
     m = random.choice(months)
     qa(p, f"Kolika je temperatura za {m}? Odgovori samo brojem.", str(vals[months.index(m)]))
+    if random.random() < 0.5:  # v04: najtopliji + jos jedna vrijednost
+        best = months[vals.index(max(vals))]
+        qa(p, "Koji mjesec je najtopliji? Odgovori samo imenom mjeseca.", best)
+        m2 = random.choice(months)
+        qa(p, f"Kolika je temperatura za {m2}? Odgovori samo brojem.", str(vals[months.index(m2)]))
 
 
 fns = [doc_racun, doc_faktura, doc_obavijest, doc_izvod]

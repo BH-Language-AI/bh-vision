@@ -5,3 +5,5 @@ sources:
   - {name: XM3600-hr, use: proxy-eval-samo, annotations: CC-BY-4.0, note: NIKAD u train}
   - {name: postocr-sr, use: proxy-eval-samo, annotations: CC-BY-4.0, note: NIKAD u train}
   - {name: bs-vision-ocr-heldout-v01, use: held-out-eval, note: NIKAD u train, status: prazan-placeholder}
+  - {name: synth3, use: vlastiti-train, samples: 1962-train/217-val, note: split-po-slici, CC-BY-4.0}
+  - {name: synth4, use: vlastiti-train-chart-tezak, samples: 2613-train/297-val, seed: 104, note: v04 gusca chart QA, CC-BY-4.0}
