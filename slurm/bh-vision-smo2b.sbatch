@@ -12,8 +12,10 @@
 # Upotreba (na LUMI login node): sbatch bh-vision-smo2b.sbatch <job-dir>
 # (job-dir sadrzi training/, configs/, scripts/, data/synth3/ — prekopirati iz BH-Language-AI/bh-vision repoa)
 set -euo pipefail
-JOBDIR="${1:?upotreba: sbatch bh-vision-smo2b.sbatch <job-dir>}"
+JOBDIR="${1:?upotreba: sbatch bh-vision-smo2b.sbatch <job-dir> [config] [train] [out]}"
 CONFIG="${2:-configs/smo2b-qlora.yaml}"
+TRAIN="${3:-data/synth3/train.jsonl}"
+OUTD="${4:-out/adapter-smo2b-v1}"
 module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
@@ -39,5 +41,5 @@ srun -n1 singularity exec "$SIF" env PYTHONPATH="$PYLIBS" python -c \
 cd "$JOBDIR"
 srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
   python -u /job/training/train.py --config /job/$CONFIG \
-    --train /job/data/synth3/train.jsonl --out /job/out/adapter-smo2b-v1 --quant none
+    --train /job/$TRAIN --out /job/$OUTD --quant none
 echo TRAIN_DONE
