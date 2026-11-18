@@ -35,7 +35,9 @@
 - `train.py`: +`warmup_ratio`/`weight_decay`/`save_steps` iz konfiga (defaulti čuvaju staro ponašanje).
 - Job-dir `smo2b-v3` na scratchu (kopija v2 + svježi fajlovi).
 - Pokušaj 1 (job 23840815): FAILED — `SFTConfig got unexpected kwarg 'warmup_ratio'` (LUMI trl/transformers miks; kontejnerski trl 1.16.0 sjeni PYLIBS). Fix: izbačeni warmup/wd knobovi, ostaje samo lr 2e-5 + r16.
-- Pokušaj 2: job **23841124** predan. Po završetku: eval mid (ckpt-30) + final, upis skora ovdje.
+- Pokušaj 2 (job 23841124): **TRAIN_DONE** (~1 h), pravi PEFT adapter (108 MB) + checkpointi 30/60/62.
+- Eval (job 23844783, cijeli v03-val, 217): **final 95/217 = 43.8%, ckpt-30 100/217 = 46.1%, ckpt-60 95/217 = 43.8%** — SVE iznad baselinea 37.3%. Prvi mali naš model koji ne degradira. Najbolji: **ckpt-30 (46.1%, +8.8pp)** — rani stopping se isplatio.
+- Sljedeće: skidanje ckpt-30 lokalno, verifikacija, prijedlog objave adaptera (težine samo uz odobrenje).
 - Cilj: prvi mali naš model koji NE degradira ispod baselinea 37.3%.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
