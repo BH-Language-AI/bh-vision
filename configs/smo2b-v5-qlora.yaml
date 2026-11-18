@@ -1,0 +1,15 @@
+# SmolVLM2-2.2B QLoRA v5 — isto kao v3/v4 recept (lr 2e-5, r16, frozen, 1 epoha),
+# ali BALANSIRAN trening 50/50 chart/doc (synth5-train: 2902 uzorka, 1451/1451).
+# Lekcija v4: chart-tezak miks (89%) prebacio model u chart-mode (doc 0/123).
+# Eval ostaje v03-val (217) radi uporedivosti.
+base_model: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 2.0e-5
+epochs: 1
+save_steps: 30
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train

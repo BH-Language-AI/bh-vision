@@ -40,13 +40,15 @@
 - Sljedeće: skidanje ckpt-30 lokalno, verifikacija, prijedlog objave adaptera (težine samo uz odobrenje).
 - Cilj: prvi mali naš model koji NE degradira ispod baselinea 37.3%.
 
-## LUMI v4 (2026-11-18) — u pripremi: chart-težak trening
-- Analiza grešaka v3 (ckpt-30): chart 24.5% (sve checkpointe identično — adapter ništa ne uči za chartove), doc 62.6%.
-- Obrasci: vrijednosti ±1–5 (35→40), brkanje mjeseci (august↔Juli), njemački oblici (Oktober), izvedena računica puca.
-- Odgovor: `data/synth4` (SEED 104, 200 doc + 800 chart, gušća chart QA: min-mjesec, najtopliji, dupla vrijednost) → merged `synth34-train.jsonl` (4575 uzoraka, 0 preklapanja sa synth3-train).
-- Config `smo2b-v4-qlora.yaml` (isti recept kao v3); eval ostaje v03-val radi uporedivosti.
-- Sljedeće: stage na LUMI, trening (~2.5 h za 4575 uzoraka), eval final + ckpt.
-- Job **23848800** predan (small-g, limit podignut na 4 h zbog 143 koraka). Nadzor u pozadini.
+## LUMI v4 (2026-11-18/19) — završen, NEGATIVAN: chart-imbalance kolaps
+- Trening `smo2b-v4` (synth34: 4575 uzoraka, 89% chart QA): `TRAIN_DONE`, loss 649→6.4 (memorizacija, bez divergencije).
+- Eval: **final 8/217 = 3.7%, ckpt-30 12/217 = 5.5%, ckpt-60 6/217 = 2.8%** — doc 0/123 na svim checkpointima.
+- Mehanizam (iz predikcija): model sve slike vidi kao chart (`The x-axis represents...`, `The graph is called...`) — chart-težak miks prebacio vizualni prior u chart-mode, OCR sposobnost ugašena.
+- Lekcija: balans tipova je obavezan; v3 (50/50-ish) ostaje najbolji (46.1%).
+
+## LUMI v5 (2026-11-19) — u pripremi: balansiran trening
+- `data/synth5-train.jsonl`: 2902 uzorka, chart/doc 1451/1451 (synth3-train cijeli + synth4 doc cijeli + chart subsample, seed 7).
+- Config `smo2b-v5-qlora.yaml`, isti recept; eval v03-val. Cilj: vratiti doc sposobnost + zadržati chart dobitke.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
