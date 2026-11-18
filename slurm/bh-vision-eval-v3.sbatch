@@ -27,14 +27,11 @@ export SINGULARITYENV_TMPDIR="$TMPDIR"
 export SINGULARITYENV_PYTHONPATH="$PYLIBS"
 cd "$JOBDIR"
 run_eval() { # $1=adapter-subdir ("" = final) $2=out-json
-  if [ -f "$AD/$1/adapter_model.safetensors" ]; then
-    srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
-      python -u /job/training/eval.py --adapter "$AD/$1" \
-        --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval /job/data/synth3/val.jsonl \
-        --max-samples "$MAXN" --out "/job/out/$2" || echo "EVAL-FAIL $1"
-  else
-    echo "SKIP $1 (nema adapter_model.safetensors)"
-  fi
+  # Napomena: bez -f provjere — /job postoji samo UNUTAR kontejnera, provjera na hostu uvijek padne.
+  srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
+    python -u /job/training/eval.py --adapter "$AD/$1" \
+      --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval /job/data/synth3/val.jsonl \
+      --max-samples "$MAXN" --out "/job/out/$2" || echo "EVAL-FAIL $1"
 }
 run_eval "" "eval-smo2b-v3-final.json"
 run_eval "checkpoint-30" "eval-smo2b-v3-ckpt30.json"
