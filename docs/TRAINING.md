@@ -23,10 +23,12 @@
 ## Baseline full-val (2026-11-17, LUMI, netreniran 2.2B, v03-val 217 uzoraka): 81/217 = 37.3%
 - (`out/eval-base-2b-v1.json`, job 23820476.) Uzorak od 10 (7/10) bio je sreća — pravi baseline je 37.3%.
 
-## LUMI v2 (2026-11-17) — treniran, čeka eval
-- `smo2b-v2` (ODLEĐEN vision encoder, 1 epoha, 62 koraka, ~1 h): `TRAIN_DONE`, train_loss 94.55.
+## LUMI v2 (2026-11-17/18) — završen, KATASTROFALAN
+- `smo2b-v2` (ODLEĐEN vision encoder, 1 epoha, 62 koraka, ~1 h): `TRAIN_DONE`, train_loss 94.55 (vs v1 33.31 — znak divergencije).
+- Eval na cijelom valu: **0/217 = 0.0%** (`out/eval-smo2b-v2.json`, job 23840606) — model kolapsirao u repetitivno brbljanje (`45.41 KM` → `Josiah Josiah Josiah...`).
+- Zaključak: i v1 (12.0%) i v2 (0.0%) degradiraju ispod baselinea 37.3%. Odleđivanje encodera s lr 1e-4 je uništilo model; QLoRA recept treba reviziju (lr, warmup, loss-maskiranje image tokena?) — sljedeći trening tek po dogovoru.
 - Pažnja: v2 `out/adapter-smo2b-v1` je PUNI model save (4.7 GB `model.safetensors`), ne PEFT — eval zato ide kao `--base`, skripta `slurm/bh-vision-eval-v2.sbatch` (uploadana u job-dir).
-- Eval job predan 2026-11-18 ali odbijen: `QOSMaxSubmitJobPerUserLimit` (3 posla već aktivna: bh2-mixv + 2×amj-loop). Ponavljanje kad se oslobodi slot — NE gasiti tuđe poslove bez dogovora.
+- Usputni fix: `training/eval.py` u v2 job-diru bio je star (bez `--out`) — uploadana svježa verzija, prvi eval job (23840543) pao zbog toga.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
