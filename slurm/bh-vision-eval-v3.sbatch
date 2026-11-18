@@ -8,12 +8,14 @@
 #SBATCH --gpus-per-task=1
 #SBATCH --time=01:00:00
 #SBATCH --output=bh-vision-eval-v3-%j.out
-# BH-Vision eval v3 — PEFT adapter + checkpointi (sve kao --adapter uz isti base).
-# Upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [max-samples, default 0=svi]
+# BH-Vision eval v3/v4 — PEFT adapter + checkpointi (sve kao --adapter uz isti base).
+# Upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter-subdir, default out/adapter-smo2b-v1] [max-samples, default 0=svi]
+# Primjer v4: sbatch bh-vision-eval-v3.sbatch /scratch/.../smo2b-v4 out/adapter-smo2b-v4
 set -euo pipefail
-JOBDIR="${1:?upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [max-samples]}"
-MAXN="${2:-0}"
-AD=/job/out/adapter-smo2b-v1
+JOBDIR="${1:?upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter] [max-samples]}"
+ADPART="${2:-out/adapter-smo2b-v1}"
+AD="/job/$ADPART"
+MAXN="${3:-0}"
 module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
@@ -33,7 +35,7 @@ run_eval() { # $1=adapter-subdir ("" = final) $2=out-json
       --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval /job/data/synth3/val.jsonl \
       --max-samples "$MAXN" --out "/job/out/$2" || echo "EVAL-FAIL $1"
 }
-run_eval "" "eval-smo2b-v3-final.json"
-run_eval "checkpoint-30" "eval-smo2b-v3-ckpt30.json"
-run_eval "checkpoint-60" "eval-smo2b-v3-ckpt60.json"
+PFX=$(basename "$ADPART")
+run_eval "" "eval-$PFX-final.json"
+for ck in 30 60 90 120; do run_eval "checkpoint-$ck" "eval-$PFX-ckpt$ck.json"; done
 echo EVAL_DONE
