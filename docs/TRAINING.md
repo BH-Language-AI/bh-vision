@@ -46,6 +46,7 @@
 - Odgovor: `data/synth4` (SEED 104, 200 doc + 800 chart, gušća chart QA: min-mjesec, najtopliji, dupla vrijednost) → merged `synth34-train.jsonl` (4575 uzoraka, 0 preklapanja sa synth3-train).
 - Config `smo2b-v4-qlora.yaml` (isti recept kao v3); eval ostaje v03-val radi uporedivosti.
 - Sljedeće: stage na LUMI, trening (~2.5 h za 4575 uzoraka), eval final + ckpt.
+- Job **23848800** predan (small-g, limit podignut na 4 h zbog 143 koraka). Nadzor u pozadini.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
