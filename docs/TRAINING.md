@@ -33,7 +33,9 @@
 ## LUMI v3 (2026-11-18) — predan, čeka red
 - Recept nakon v1 12.0% / v2 0.0%: `configs/smo2b-v3-qlora.yaml` — frozen encoder, lr 2e-5, r16/a32, warmup 0.1, weight decay 0.01, 1 epoha, `save_steps: 30` (eval mid-checkpointa + finalnog).
 - `train.py`: +`warmup_ratio`/`weight_decay`/`save_steps` iz konfiga (defaulti čuvaju staro ponašanje).
-- Job-dir `smo2b-v3` na scratchu (kopija v2 + svježi fajlovi), job **23840815** (`bh-vision-smo2b`, small-g, 2:30) — PENDING iza `sft9b_full2`. Po završetku: eval mid (ckpt-30) + final, upis skora ovdje.
+- Job-dir `smo2b-v3` na scratchu (kopija v2 + svježi fajlovi).
+- Pokušaj 1 (job 23840815): FAILED — `SFTConfig got unexpected kwarg 'warmup_ratio'` (LUMI trl/transformers miks; kontejnerski trl 1.16.0 sjeni PYLIBS). Fix: izbačeni warmup/wd knobovi, ostaje samo lr 2e-5 + r16.
+- Pokušaj 2: job **23841124** predan. Po završetku: eval mid (ckpt-30) + final, upis skora ovdje.
 - Cilj: prvi mali naš model koji NE degradira ispod baselinea 37.3%.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
