@@ -30,6 +30,12 @@
 - Pažnja: v2 `out/adapter-smo2b-v1` je PUNI model save (4.7 GB `model.safetensors`), ne PEFT — eval zato ide kao `--base`, skripta `slurm/bh-vision-eval-v2.sbatch` (uploadana u job-dir).
 - Usputni fix: `training/eval.py` u v2 job-diru bio je star (bez `--out`) — uploadana svježa verzija, prvi eval job (23840543) pao zbog toga.
 
+## LUMI v3 (2026-11-18) — predan, čeka red
+- Recept nakon v1 12.0% / v2 0.0%: `configs/smo2b-v3-qlora.yaml` — frozen encoder, lr 2e-5, r16/a32, warmup 0.1, weight decay 0.01, 1 epoha, `save_steps: 30` (eval mid-checkpointa + finalnog).
+- `train.py`: +`warmup_ratio`/`weight_decay`/`save_steps` iz konfiga (defaulti čuvaju staro ponašanje).
+- Job-dir `smo2b-v3` na scratchu (kopija v2 + svježi fajlovi), job **23840815** (`bh-vision-smo2b`, small-g, 2:30) — PENDING iza `sft9b_full2`. Po završetku: eval mid (ckpt-30) + final, upis skora ovdje.
+- Cilj: prvi mali naš model koji NE degradira ispod baselinea 37.3%.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
