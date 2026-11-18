@@ -51,10 +51,10 @@ def main():
     lora = LoraConfig(r=c["lora"]["r"], lora_alpha=c["lora"]["alpha"],
                       lora_dropout=c["lora"].get("dropout", 0.05),
                       target_modules="all-linear", task_type="CAUSAL_LM")
+    # Napomena: BEZ warmup_ratio/weight_decay kwargova — LUMI PYLIBS/kontejner miks
+    # (trl 1.16.0/1.18.0 vistrucno) baca TypeError na nepoznat kwarg; lr je ionako 10x dole.
     args = SFTConfig(output_dir=a.out, num_train_epochs=c.get("epochs", 2),
                      learning_rate=c.get("lr", 1.5e-4),
-                     warmup_ratio=c.get("warmup_ratio", 0.0),
-                     weight_decay=c.get("weight_decay", 0.0),
                      per_device_train_batch_size=1, gradient_accumulation_steps=32,
                      logging_steps=10, save_steps=c.get("save_steps", 60), save_total_limit=3,
                      max_length=None, dataset_text_field="text", remove_unused_columns=False,

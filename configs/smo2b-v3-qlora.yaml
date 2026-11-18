@@ -1,13 +1,12 @@
 # SmolVLM2-2.2B QLoRA v3 — konzervativan (nakon v1 12% i v2 0% vs baseline 37.3%).
 # Lekcije: lr 1.5e-4/1e-4 previsok za 1962 uzorka (memorizacija/kolaps) -> lr 10x dole,
-# manji rank, warmup, weight decay, 1 epoha, frozen encoder. Mid-checkpoint (30) se evaluira uz finalni.
+# manji rank, 1 epoha, frozen encoder. Mid-checkpoint (30) se evaluira uz finalni.
+# BEZ warmupa: LUMI env (trl miks) rusi nepoznate kwargove — lr 2e-5 je sam po sebi siguran start.
 base_model: HuggingFaceTB/SmolVLM2-2.2B-Instruct
 method: qlora-4bit
 lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
 freeze_vision_encoder: true
 lr: 2.0e-5
-warmup_ratio: 0.1
-weight_decay: 0.01
 epochs: 1
 save_steps: 30
 effective_batch: 32
