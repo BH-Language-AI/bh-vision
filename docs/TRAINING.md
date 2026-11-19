@@ -65,6 +65,11 @@
 - **Rezultat: baseline 16/73 = 21.9%, v3-šampion 17/73 = 23.3%** — praktično izjednačeno, synth-dobit se NE prenosi na prave dokumente.
 - Zaključak: v7 mora učiti na held-out-SLIČNIM podacima (drugi mjeseci bhas saopćenja = isti layouti, drugi brojevi — legitiman train, held-out ostaje netaknut).
 
+## LUMI v7 (2026-11-19) — u pripremi: pravi dokumenti u treningu
+- `data/bhas-train/train.jsonl`: 113 QA s bhas avgust/juli 2026 saopćenja (isti layouti kao held-out septembar, drugi brojevi; decimalni zarez usklađen sa slikom, sumnjive labele izbačene, august CPI tabela vizualno verificirana).
+- `data/synth7-train.jsonl`: 3015 uzoraka (synth5 2902 + bhas 113). Chart udio ~48%.
+- Config `smo2b-v7-qlora.yaml`, isti recept; eval v03-val + held-out v01.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).

@@ -1,0 +1,15 @@
+# SmolVLM2-2.2B QLoRA v7 — isto kao v3/v5 recept (lr 2e-5, r16, frozen, 1 epoha),
+# trening synth7 (3015 uzoraka: synth5 2902 + bhas-train 113 pravih dokumenata).
+# Cilj: prenijeti doc sposobnost na prave dokumente (held-out verdict: synth se ne prenosi).
+# Eval: v03-val (uporedivost) + held-out v01 (pravi test).
+base_model: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 2.0e-5
+epochs: 1
+save_steps: 30
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train
