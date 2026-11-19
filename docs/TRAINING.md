@@ -71,6 +71,11 @@
 - Eval held-out v01: **final 16/73 = 21.9%, ckpt-60 18/73 = 24.7%** vs v3 23.3% vs baseline 21.9% — unutar šuma (±5pp na 73 uzorka), bez stvarnog pomaka.
 - Zaključak: 113 real-doc QA nije dovoljno da se generalizacija pomakne; treba RED VELIČINE više pravih dokumenata (svi bhas mjeseci + drugi izvori), ili drugačiji pristup. Trening-spirala pauzirana: v3 ostaje jedini objavljeni model.
 
+## LUMI v8 (2026-11-19) — predan: masovni mix
+- `data/bhas-bulk/train.jsonl`: 1825 QA sa 56 stranica (bhas 2025:11mj + 2026:8mj, bez heldout 09/2026); generički miner verificiran na martu 2025.
+- `data/synth8-train.jsonl`: 5427 (synth5 + bhas-bulk + plotqa-700, chart 39.6%).
+- Config `smo2b-v8-qlora.yaml`, isti recept; eval v03-val + held-out. ~170 koraka, limit 4 h.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
