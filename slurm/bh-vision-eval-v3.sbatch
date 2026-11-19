@@ -12,11 +12,12 @@
 # Upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter-subdir] [max-samples] [eval-jsonl]
 # Eval default v03-val; held-out: ... out/adapter-smo2b-v3 data/heldout-v01/eval.jsonl
 set -euo pipefail
-JOBDIR="${1:?upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter] [max-samples] [eval]}"
+JOBDIR="${1:?upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter] [max-samples] [eval] [outtag]}"
 ADPART="${2:-out/adapter-smo2b-v1}"
 AD="/job/$ADPART"
 MAXN="${3:-0}"
 EVALJSON="${4:-data/synth3/val.jsonl}"
+OUTTAG="${5:-}"
 module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
@@ -36,7 +37,7 @@ run_eval() { # $1=adapter-subdir ("" = final) $2=out-json
       --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval "/job/$EVALJSON" \
       --max-samples "$MAXN" --out "/job/out/$2" || echo "EVAL-FAIL $1"
 }
-PFX=$(basename "$ADPART")
+PFX=$(basename "$ADPART")$OUTTAG
 run_eval "" "eval-$PFX-final.json"
 for ck in 30 60 90 120; do run_eval "checkpoint-$ck" "eval-$PFX-ckpt$ck.json"; done
 echo EVAL_DONE
