@@ -46,9 +46,11 @@
 - Mehanizam (iz predikcija): model sve slike vidi kao chart (`The x-axis represents...`, `The graph is called...`) — chart-težak miks prebacio vizualni prior u chart-mode, OCR sposobnost ugašena.
 - Lekcija: balans tipova je obavezan; v3 (50/50-ish) ostaje najbolji (46.1%).
 
-## LUMI v5 (2026-11-19) — u pripremi: balansiran trening
-- `data/synth5-train.jsonl`: 2902 uzorka, chart/doc 1451/1451 (synth3-train cijeli + synth4 doc cijeli + chart subsample, seed 7).
-- Config `smo2b-v5-qlora.yaml`, isti recept; eval v03-val. Cilj: vratiti doc sposobnost + zadržati chart dobitke.
+## LUMI v5 (2026-11-19) — završen, ISPOD v3: balans vratio dio
+- Trening `smo2b-v5` (synth5: 2902, 50/50): `TRAIN_DONE`. Eval (job 23852638): **final 70/217 = 32.3%, ckpt-30 75/217 = 34.6%, ckpt-60 32.3%**.
+- Raspad ckpt-30: chart 23/94 = 24.5% (identično v3 i baselineu — chart se ne miče), doc 52/123 = 42.3% (oporavak od v4 0%, ali ispod v3 62.6%).
+- Chart analiza: direktne vrijednosti 5/41 = 12.2% (gore od max/min 18/53 = 34%) — model ne čita tačne visine stubaca (±1–5). Zaključak: precizno očitanje vrijednosti se ne uči ovim podacima; treba prava chart raznolikost (PlotQA-bs) ili supervizija s označenim vrijednostima.
+- v3 ckpt-30 (46.1%) ostaje najbolji objavljeni model.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
