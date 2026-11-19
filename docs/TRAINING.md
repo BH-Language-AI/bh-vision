@@ -71,10 +71,16 @@
 - Eval held-out v01: **final 16/73 = 21.9%, ckpt-60 18/73 = 24.7%** vs v3 23.3% vs baseline 21.9% — unutar šuma (±5pp na 73 uzorka), bez stvarnog pomaka.
 - Zaključak: 113 real-doc QA nije dovoljno da se generalizacija pomakne; treba RED VELIČINE više pravih dokumenata (svi bhas mjeseci + drugi izvori), ili drugačiji pristup. Trening-spirala pauzirana: v3 ostaje jedini objavljeni model.
 
-## LUMI v8 (2026-11-19) — predan: masovni mix
-- `data/bhas-bulk/train.jsonl`: 1825 QA sa 56 stranica (bhas 2025:11mj + 2026:8mj, bez heldout 09/2026); generički miner verificiran na martu 2025.
-- `data/synth8-train.jsonl`: 5427 (synth5 + bhas-bulk + plotqa-700, chart 39.6%).
-- Config `smo2b-v8-qlora.yaml`, isti recept; eval v03-val + held-out. ~170 koraka, limit 4 h.
+## LUMI v8 (2026-11-19/20) — završen, ODBIJEN: najduži trening, najdublja memorizacija
+- Trening `smo2b-v8` (synth8: 5427, 170 koraka): `TRAIN_DONE`.
+- Eval v03-val: **final 12/217 = 5.5%, ckpt-150 7/217 = 3.2%**. Eval held-out: **0/73**.
+- Zakon cijele serije: v3-30st 46% > v3-62st 44% > v5/v7 33-35% (90+ st) > v1 12% (124 st) > v4/v8 ~4-5% (143-170 st). Broj koraka ubija, ne podaci.
+- v3 ckpt-30 (30 koraka, 46.1%) ostaje šampion.
+- Podaci v8: `bhas-bulk` 1825 QA (56 stranica) + `synth8` 5427 mix; miner verificiran.
+
+## LUMI v9 (2026-11-20) — predan: kratki trening po lekciji serije
+- Recept: synth7 (3015) + max 40 koraka + save 20 (umjesto punih epoha).
+- Cilj: nadmašiti v3 kraćim treningom na boljim podacima.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
