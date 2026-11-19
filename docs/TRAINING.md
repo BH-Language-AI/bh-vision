@@ -52,6 +52,10 @@
 - Chart analiza: direktne vrijednosti 5/41 = 12.2% (gore od max/min 18/53 = 34%) — model ne čita tačne visine stubaca (±1–5). Zaključak: precizno očitanje vrijednosti se ne uči ovim podacima; treba prava chart raznolikost (PlotQA-bs) ili supervizija s označenim vrijednostima.
 - v3 ckpt-30 (46.1%) ostaje najbolji objavljeni model.
 
+## LUMI v6 (2026-11-19) — predan: PlotQA-bs u miksu
+- `data/synth6-train.jsonl`: 3602 uzorka (synth5 2902 + plotqa-bs 700, chart 59.7% — ispod v4-crte).
+- Cilj: chart >24.5% bez gubitka doc-a. Recept isti; eval v03-val.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).

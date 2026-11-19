@@ -9,3 +9,4 @@ sources:
   - {name: synth4, use: vlastiti-train-chart-tezak, samples: 2613-train/297-val, seed: 104, note: v04 gusca chart QA, CC-BY-4.0}
   - {name: synth5, use: vlastiti-train-balansiran, samples: 2902-train, chart-doc-1451-1451, seed: 7, note: v05 balans chart-doc, CC-BY-4.0}
   - {name: plotqa-bs-v01, use: hf-chart-train, samples: 3000-train/1500-img, note: PlotQA preveden regex pravilima, slike+atribucija CC-BY-4.0, NIKAD eval, fetch scripts/fetch_plotqa_bs.py}
+  - {name: synth6, use: v06-train-mix, samples: 3602-train, chart-59.7-doc-40.3, seed: 21, note: synth5 + plotqa-bs 700, CC-BY-4.0}

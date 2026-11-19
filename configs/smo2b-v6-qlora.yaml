@@ -1,0 +1,15 @@
+# SmolVLM2-2.2B QLoRA v6 — isto kao v3/v5 recept (lr 2e-5, r16, frozen, 1 epoha),
+# trening synth6 (3602 uzorka: synth5 2902 + plotqa-bs 700, chart 59.7%).
+# Cilj: pomaknuti chart s 24.5% pravom chart raznolikoscu, bez ponavljanja v4 (89% = kolaps).
+# Eval ostaje v03-val (217) radi uporedivosti.
+base_model: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 2.0e-5
+epochs: 1
+save_steps: 30
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train
