@@ -52,11 +52,11 @@
 - Chart analiza: direktne vrijednosti 5/41 = 12.2% (gore od max/min 18/53 = 34%) — model ne čita tačne visine stubaca (±1–5). Zaključak: precizno očitanje vrijednosti se ne uči ovim podacima; treba prava chart raznolikost (PlotQA-bs) ili supervizija s označenim vrijednostima.
 - v3 ckpt-30 (46.1%) ostaje najbolji objavljeni model.
 
-## LUMI v6 (2026-11-19) — predan: PlotQA-bs u miksu
-- `data/synth6-train.jsonl`: 3602 uzorka (synth5 2902 + plotqa-bs 700, chart 59.7% — ispod v4-crte).
-- Cilj: chart >24.5% bez gubitka doc-a. Recept isti; eval v03-val.
-- Status 2026-11-19: kod + podaci spremni i pushani, ali LUMI EFP cert istekao (vrijedio do 19.11. 05:37) — potreban ručni re-login na https://sshca.my-eurohpc.eu (MyAccessID) pa nastavak stage/submit komandom iz committed skripti.
-- Cert obnovljen isti dan → stage gotov (smo2b-v6: synth6 3602 + plotqa 1500 slika), trening **job 23858562** predan (small-g, limit 3 h). Nadzor u pozadini.
+## LUMI v6 (2026-11-19) — završen, ODBIJEN: chart zid potvrđen
+- Trening `smo2b-v6` (synth6: 3602, chart 59.7%): `TRAIN_DONE`. Eval: **final 36/217 = 16.6%, ckpt-30 73/217 = 33.6%, ckpt-60 39/217 = 18.0%**.
+- Raspad: chart 21–23/94 u SVIM checkpointima (isto kao baseline/v3/v5 — PlotQA-bs raznolikost NIJE pomakla chart), doc 41.5%→13% (klasična memorizacija krivulja, strmija nego v3).
+- Zaključak: chart 24.5% je zid za QLoRA r16 na 2.2B s ovim podacima — precizno očitanje vrijednosti se ne uči ovako. Treba drugačiji pristup (veća rezolucija, full-finetune, ili baza s jačim chartovima), ne još jedan isti trening.
+- v3 ckpt-30 (46.1%) ostaje šampion i objavljeni model. Trening-spirala se ovdje zaustavlja; sljedeće: held-out pravim dokumentima, 8B klasa, ili chart-specific pristup.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
