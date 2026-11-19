@@ -78,9 +78,11 @@
 - v3 ckpt-30 (30 koraka, 46.1%) ostaje šampion.
 - Podaci v8: `bhas-bulk` 1825 QA (56 stranica) + `synth8` 5427 mix; miner verificiran.
 
-## LUMI v9 (2026-11-20) — predan: kratki trening po lekciji serije
-- Recept: synth7 (3015) + max 40 koraka + save 20 (umjesto punih epoha).
-- Cilj: nadmašiti v3 kraćim treningom na boljim podacima.
+## LUMI v9 (2026-11-20) — završen: PLAFON POTVRĐEN, v3 ostaje
+- Trening `smo2b-v9` (synth7: 3015, max 40 koraka): `TRAIN_DONE`.
+- Eval v03-val: **final 101/217 = 46.5%** (v3: 46.1%). Eval held-out: **17/73 = 23.3%** (v3: 23.3%).
+- Zaključak: kratki trening na boljim podacima reproducira ali NE probija plafon (~46% val / ~23% heldout). QLoRA r16 na 2.2B je iscrpljen — za dalje treba veći model (8B), veća rezolucija ili full-finetune.
+- Nijansa: v9 doc 63.4% (najbolji doc dosad, v3 62.6%), chart zid 24.5% svugdje. Objavljen ostaje v3 (verificiran prvi); v9 je validirana alternativa u evidenciji.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
