@@ -65,10 +65,11 @@
 - **Rezultat: baseline 16/73 = 21.9%, v3-šampion 17/73 = 23.3%** — praktično izjednačeno, synth-dobit se NE prenosi na prave dokumente.
 - Zaključak: v7 mora učiti na held-out-SLIČNIM podacima (drugi mjeseci bhas saopćenja = isti layouti, drugi brojevi — legitiman train, held-out ostaje netaknut).
 
-## LUMI v7 (2026-11-19) — u pripremi: pravi dokumenti u treningu
-- `data/bhas-train/train.jsonl`: 113 QA s bhas avgust/juli 2026 saopćenja (isti layouti kao held-out septembar, drugi brojevi; decimalni zarez usklađen sa slikom, sumnjive labele izbačene, august CPI tabela vizualno verificirana).
-- `data/synth7-train.jsonl`: 3015 uzoraka (synth5 2902 + bhas 113). Chart udio ~48%.
-- Config `smo2b-v7-qlora.yaml`, isti recept; eval v03-val + held-out v01.
+## LUMI v7 (2026-11-19) — završen, ODBIJEN: pravi dokumenti pomažu minimalno
+- Trening `smo2b-v7` (synth7: 3015 = synth5 + bhas-train 113): `TRAIN_DONE`.
+- Eval v03-val: final 67/217 = 30.9%, ckpt-60 72/217 = 33.2% (doc 40.7%, chart 23.4% zid).
+- Eval held-out v01: **final 16/73 = 21.9%, ckpt-60 18/73 = 24.7%** vs v3 23.3% vs baseline 21.9% — unutar šuma (±5pp na 73 uzorka), bez stvarnog pomaka.
+- Zaključak: 113 real-doc QA nije dovoljno da se generalizacija pomakne; treba RED VELIČINE više pravih dokumenata (svi bhas mjeseci + drugi izvori), ili drugačiji pristup. Trening-spirala pauzirana: v3 ostaje jedini objavljeni model.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
