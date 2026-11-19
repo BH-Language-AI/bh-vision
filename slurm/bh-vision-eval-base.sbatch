@@ -9,10 +9,12 @@
 #SBATCH --time=01:00:00
 #SBATCH --output=bh-vision-eval-base-%j.out
 # BH-Vision eval — adapter vs val set, rezultat u eval.json. Brz posao (10-30 min).
-# Upotreba: sbatch bh-vision-eval-base.sbatch <job-dir> [max-samples, default 0=svi]
+# Upotreba: sbatch bh-vision-eval-base.sbatch <job-dir> [max-samples, default 0=svi] [eval-jsonl] [out-json]
 set -euo pipefail
-JOBDIR="${1:?upotreba: sbatch bh-vision-eval-base.sbatch <job-dir> [max-samples]}"
+JOBDIR="${1:?upotreba: sbatch bh-vision-eval-base.sbatch <job-dir> [max-samples] [eval] [out]}"
 MAXN="${2:-0}"
+EVALJSON="${3:-data/synth3/val.jsonl}"
+OUTJSON="${4:-out/eval-base-2b-v1.json}"
 module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
@@ -27,6 +29,6 @@ export SINGULARITYENV_PYTHONPATH="$PYLIBS"
 cd "$JOBDIR"
 srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
   python -u /job/training/eval.py \
-    --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval /job/data/synth3/val.jsonl \
-    --max-samples "$MAXN" --out /job/out/eval-base-2b-v1.json
+    --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval "/job/$EVALJSON" \
+    --max-samples "$MAXN" --out "/job/$OUTJSON"
 echo EVAL_DONE
