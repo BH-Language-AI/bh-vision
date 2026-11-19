@@ -55,6 +55,7 @@
 ## LUMI v6 (2026-11-19) — predan: PlotQA-bs u miksu
 - `data/synth6-train.jsonl`: 3602 uzorka (synth5 2902 + plotqa-bs 700, chart 59.7% — ispod v4-crte).
 - Cilj: chart >24.5% bez gubitka doc-a. Recept isti; eval v03-val.
+- Status 2026-11-19: kod + podaci spremni i pushani, ali LUMI EFP cert istekao (vrijedio do 19.11. 05:37) — potreban ručni re-login na https://sshca.my-eurohpc.eu (MyAccessID) pa nastavak stage/submit komandom iz committed skripti.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
