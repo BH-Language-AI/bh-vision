@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 releases/
+
+# plotqa-bs slike+jsonl zive na HF (preveliko za git)
+data/plotqa-bs/
