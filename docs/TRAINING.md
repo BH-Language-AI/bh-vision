@@ -58,10 +58,12 @@
 - Zaključak: chart 24.5% je zid za QLoRA r16 na 2.2B s ovim podacima — precizno očitanje vrijednosti se ne uči ovako. Treba drugačiji pristup (veća rezolucija, full-finetune, ili baza s jačim chartovima), ne još jedan isti trening.
 - v3 ckpt-30 (46.1%) ostaje šampion i objavljeni model. Trening-spirala se ovdje zaustavlja; sljedeće: held-out pravim dokumentima, 8B klasa, ili chart-specific pristup.
 
-## BH held-out v01 (2026-11-19) — NAPUNJEN pravim dokumentima
+## BH held-out v01 (2026-11-19) — NAPUNJEN + PRVI SKOROVI
 - `data/heldout-v01/eval.jsonl`: **73 ručno verificirana QA** s 19 stranica bhas.gov.ba saopćenja (CPI/PPI/prosječne cijene 09/2026) — prave tabele, zarez-decimale, dijakritici, 1 pravi graf.
 - Objavljeno na `BH-Language-AI/bs-vision-ocr-heldout-v01` (CC-BY-4.0 + atribucija). NIKAD u train.
 - Sljedeće: eval v3-šampiona (ckpt-30) + baselinea na held-outu — pravi generalizacijski skor.
+- **Rezultat: baseline 16/73 = 21.9%, v3-šampion 17/73 = 23.3%** — praktično izjednačeno, synth-dobit se NE prenosi na prave dokumente.
+- Zaključak: v7 mora učiti na held-out-SLIČNIM podacima (drugi mjeseci bhas saopćenja = isti layouti, drugi brojevi — legitiman train, held-out ostaje netaknut).
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
