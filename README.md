@@ -3,7 +3,8 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](pyproject.toml)
 [![HF Collection](https://img.shields.io/badge/🤗_Collection-BH--Vision-yellow.svg)](https://huggingface.co/collections/BH-Language-AI/bh-vision)
-[![Model 2B](https://img.shields.io/badge/🏆_2B-v3_46.1%25-brightgreen.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-2b)
+[![Model 2B](https://img.shields.io/badge/🏆_2B-v3_46.1%25-brightgrey.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-2b)
+[![Model 4B](https://img.shields.io/badge/🚀_4B-v1_90.3%25-brightgreen.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-4b)
 [![Held-out](https://img.shields.io/badge/🧪_held--out-73_QA-blue.svg)](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01)
 [![Tests](https://img.shields.io/badge/✅_tests-2%2F2_passing-brightgreen.svg)](tests/)
 [![CI](https://github.com/BH-Language-AI/bh-vision/actions/workflows/ci.yml/badge.svg)](https://github.com/BH-Language-AI/bh-vision/actions)
@@ -13,7 +14,7 @@
 **Vizuelni AI za bosanski jezik i Balkan — slike, dokumenti, OCR, chartovi, video.**
 Prvi bosanski vision-language projekat: adaptacija otvorenih VLM-ova na bosanski — sa čćdžšđ, ijekavicom i domaćim dokumentima.
 
-> 🎯 **Plan: prvo OK 2B verzija → pa 4B.** 2B je objavljen (v3, 46.1%); 4B je sljedeći (odabir baze u toku).
+> 🎯 **Plan: prvo OK 2B verzija → pa 4B.** 2B je objavljen (v3, 46.1%); **4B je objavljen (Qwen3B+adapter, 90.3%/49.3%)** — vidi [bh-vision-1-4b](https://huggingface.co/BH-Language-AI/bh-vision-1-4b).
 
 ## 🏆 Benchmark — v03-val (217 uzoraka)
 
@@ -48,7 +49,7 @@ python3 scripts/qc_license.py        # gate: blokira trening na nečistim licenc
 
 | Šta | Gdje |
 |---|---|
-| 🤗 Modeli (2B ✅ težine, 8B/12B placeholderi) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
+| 🤗 Modeli (2B ✅, **4B ✅ novi**, 8B/12B placeholderi) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
 | 📦 Trening setovi (synth3–10, plotqa-bs, bhas-bulk) | [HF dataseti](https://huggingface.co/datasets/BH-Language-AI/bs-vision-bhas-bulk-v01) + `data/manifest.yaml` |
 | 🧪 Held-out (73 ručna QA, bhas 09/2026) | [bs-vision-ocr-heldout-v01](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01) |
 | 📖 Odluke, registar, roadmap | [BH-LANGUAGE-AI](https://github.com/BH-Language-AI) (interni plan) |

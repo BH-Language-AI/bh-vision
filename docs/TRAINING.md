@@ -90,7 +90,10 @@
 - Zaključak: ni najveći miks ne pomiče plafon (~46% val / ~23% held-out). Svi pokušaji v4–v10 odbijeni; v3 ckpt-30 ostaje jedini objavljeni model.
 - Cert obnovljen 20.11 → stage OK (sve slike verificirane: 0 nedostaje), trening **job 23881149** predan (small-g, limit 3 h). Nadzor u pozadini.
 
-## LUMI Qwen3B v1 (2026-11-20) — 4B pilot: PROBITAK
+## LUMI Qwen3B v1 (2026-11-20) — 4B pilot: OBJAVLJEN
+- Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%). Eval held-out: **36/73 = 49.3%**.
+- Pravi Qwen baseline: val 87.6% / heldout 49.3% → adapter +2.7pp val, ±0 heldout. Baza nosi, adapter dodaje bez lomljenja.
+- Objavljen kao **BH-Language-AI/bh-vision-1-4b** (adapter 165 MB + kartica s poštenim omjerom), dodat u HF kolekciju.
 - Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%) — chart zid 24.5% srušen samom bazom.
 - Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline 21.9%) — prava generalizacija, duplo bolje.
 - Analiza grešaka held-out: većina su FORMAT (zarez/tačka, "678.3" vs "678.3 KM", pune rečenice umjesto kratkog odgovora), ne nerazumijevanje — metrika je stroga, ali fer za poređenje (ista za sve).
