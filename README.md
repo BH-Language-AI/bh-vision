@@ -3,23 +3,54 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](pyproject.toml)
 [![HF Collection](https://img.shields.io/badge/🤗_Collection-BH--Vision-yellow.svg)](https://huggingface.co/collections/BH-Language-AI/bh-vision)
-[![Faza](https://img.shields.io/badge/faza-0%2F1_istraživanje-lightgrey.svg)](ROADMAP.md)
+[![Model 2B](https://img.shields.io/badge/🏆_2B-v3_46.1%25-brightgreen.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-2b)
+[![Held-out](https://img.shields.io/badge/🧪_held--out-73_QA-blue.svg)](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01)
+[![Tests](https://img.shields.io/badge/✅_tests-2%2F2_passing-brightgreen.svg)](tests/)
 [![CI](https://github.com/BH-Language-AI/bh-vision/actions/workflows/ci.yml/badge.svg)](https://github.com/BH-Language-AI/bh-vision/actions)
 
 # 👁️ BH-Vision
 
 **Vizuelni AI za bosanski jezik i Balkan — slike, dokumenti, OCR, chartovi, video.**
-Prvi bosanski vision-language projekat: adaptacija otvorenih VLM-ova (SmolVLM2, Idefics3, Pixtral) na bosanski — sa čćdžšđ, ijekavicom i domaćim dokumentima.
+Prvi bosanski vision-language projekat: adaptacija otvorenih VLM-ova na bosanski — sa čćdžšđ, ijekavicom i domaćim dokumentima.
 
-> **Status: Faza 0/1 — istraživanje i temelji.** Model kartice su placeholderi bez težina; težine se objavljuju tek nakon odobrenog treninga i verificirane evaluacije.
+> 🎯 **Plan: prvo OK 2B verzija → pa 4B.** 2B je objavljen (v3, 46.1%); 4B je sljedeći (odabir baze u toku).
+
+## 🏆 Benchmark — v03-val (217 uzoraka)
+
+| Model | Ukupno | Chart (94) | Doc (123) | Status |
+|---|---|---|---|---|
+| Baseline (netreniran 2.2B) | 37.3% | — | — | referenca |
+| v1 (frozen, 124 koraka) | 12.0% | — | — | ❌ memorizacija |
+| v2 (odleđen, 62 koraka) | 0.0% | — | — | ❌ kolaps |
+| **v3 ckpt-30** (frozen, lr 2e-5, 30 koraka) | **46.1%** | 24.5% | **62.6%** | ✅ **objavljen** |
+| v5 (balanced, 91 korak) | 34.6% | 24.5% | 42.3% | odbijen |
+| v7 (+113 pravih dokumenata) | 33.2% | 23.4% | 40.7% | odbijen |
+| v9 (kratki, 40 koraka) | 46.5% | 24.5% | **63.4%** | validiran |
+| v4 / v6 / v8 | 3–17% | — | 0–22% | ❌ kolapsi |
+
+## 🧪 Held-out — pravi bhas dokumenti (73 QA)
+
+| Model | Skor | Napomena |
+|---|---|---|
+| Baseline (netreniran 2.2B) | 21.9% | referenca na pravim dokumentima |
+| **v3 ckpt-30** | **23.3%** | generalizira (slabije, ali stvarno) |
+| v5 / v7 / v9 | 21–25% | u šumu — synth se slabo prenosi |
+
+## ✅ Testovi
+
+```bash
+python3 -m pytest tests/ -q          # 2/2 passed (API stub + data contract)
+python3 scripts/validate_data.py --data <jsonl> --images   # format + postojanje + PIL open svake slike
+python3 scripts/qc_license.py        # gate: blokira trening na nečistim licencama
+```
 
 ## 🗺️ Gdje je šta
 
 | Šta | Gdje |
 |---|---|
-| 🤗 Modeli (`bh-vision-1-2b/8b/12b`) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
-| 📦 Trening set (`bs-vision-train-v03`, 2179 uzoraka) | [HF dataset](https://huggingface.co/datasets/BH-Language-AI/bs-vision-train-v03) |
-| 🧪 Held-out eval (prazan placeholder) | [HF dataset](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01) |
+| 🤗 Modeli (2B ✅ težine, 8B/12B placeholderi) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
+| 📦 Trening setovi (synth3–10, plotqa-bs, bhas-bulk) | [HF dataseti](https://huggingface.co/datasets/BH-Language-AI/bs-vision-bhas-bulk-v01) + `data/manifest.yaml` |
+| 🧪 Held-out (73 ručna QA, bhas 09/2026) | [bs-vision-ocr-heldout-v01](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01) |
 | 📖 Odluke, registar, roadmap | [BH-LANGUAGE-AI](https://github.com/BH-Language-AI) (interni plan) |
 
 ## 🚀 Brzi start
@@ -27,28 +58,29 @@ Prvi bosanski vision-language projekat: adaptacija otvorenih VLM-ova (SmolVLM2, 
 ```bash
 pip install -e ".[train]"   # torch, transformers==5.22.2, trl, peft (pinovano!)
 make doctor                 # suha provjera
-python scripts/make_synth_bs.py              # regeneriši sintetički set
-python training/train.py --config configs/smo2b-qlora.yaml --train data/synth3/train.jsonl --out releases/adapter-v01 --quant none
+python training/eval.py --base BH-Language-AI/bh-vision-1-2b --eval data/synth3/val.jsonl   # eval objavljenog
+python scripts/fetch_plotqa_bs.py    # veliki setovi se vuku s HF-a (nisu u gitu)
 ```
 
-> ⚠️ Trening troši GPU — samo uz odobrenje. Prvi smoke (T4, 20 koraka) prošao; evidencija u [`docs/TRAINING.md`](docs/TRAINING.md).
+> ⚠️ Trening troši GPU — samo uz odobrenje. Puni trag: [`docs/TRAINING.md`](docs/TRAINING.md) (v1–v10, svi brojevi).
 
 ## 📚 Dokumenti
 
 - `docs/PROJECT_CHARTER.md` — misija, jezici (bs primarno, ijekavica), moduli
-- `docs/ARCHITECTURE.md` — Arch A (adaptacija postojećeg VLM-a), 2B + 8B (+12B opcionalno), vision adapter odvojen od tekstualnog frameworka
-- `docs/MODELS.md` — EU kandidati s licencama
-- `docs/DATASETS.md` — registar + praznine za bosanski + vlastiti setovi (v03 aktuelan)
-- `docs/TRAINING.md` — smoke rezultati, baseline 7/10, pinovane verzije
-- `slurm/` — LUMI job skripte (`dev-g`, MI250X, bf16)
-- `kaggle-*/` — Kaggle kereneli (smoke, trening, eval)
+- `docs/ARCHITECTURE.md` — Arch A (adaptacija postojećeg VLM-a), vision adapter odvojen od tekstualnog frameworka
+- `docs/MODELS.md` — kandidati s licencama (EU prioritet)
+- `docs/DATASETS.md` — registar + praznine + vlastiti setovi
+- `docs/TRAINING.md` — evidencija svih treninga (v1–v10)
+- `slurm/` — LUMI job skripte (`dev-g`/`small-g`, MI250X, ROCm)
+- `kaggle-*/` — Kaggle kerneli (smoke, trening, eval)
 
 ## 🧭 Ključne odluke
 
-1. Fiksne 2B/4B/7B nisu opravdane — cilj: **2B (SmolVLM2)** + **8B (Idefics3)**, 12B (Pixtral) opcionalno.
-2. Kratkoročno samo adaptacija postojećeg VLM-a; spajanje na BH-LLM-Basic tek kad backbone postoji.
-3. Bosanski OCR ne postoji javno — vlastiti sintetički trening + held-out eval; proxy XM3600-hr + postocr-sr.
-4. `transformers==5.22.2` pin — novije verzije lome SmolVLM2 merge.
+1. **Prvo OK 2B → pa 4B.** 2B gotov (SmolVLM2-2.2B + QLoRA, objavljen v3). 4B: odabir EU-čiste baze u toku (nema EU 4B checkpointa kao 2B — kandidati se provjeravaju).
+2. Kratki treninzi pobjeđuju: 30–40 koraka 46% → 90+ koraka 33% → 140+ koraka ~4%. Zakon serije v1–v10.
+3. Chart 24.5% je zid za ovaj pristup — treba veća rezolucija, full-finetune ili jača baza.
+4. Bosanski OCR ne postoji javno — vlastiti sintetički + pravi bhas trening, held-out eval; proxy XM3600-hr + postocr-sr.
+5. `transformers==5.22.2` pin — novije verzije lome SmolVLM2 merge; kontejnerski trl sjeni PYLIBS (poznato, zaobiđeno).
 
 ## 🤝 Kontakt
 
