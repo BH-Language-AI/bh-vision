@@ -94,7 +94,8 @@
 - Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%) — chart zid 24.5% srušen samom bazom.
 - Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline 21.9%) — prava generalizacija, duplo bolje.
 - Analiza grešaka held-out: većina su FORMAT (zarez/tačka, "678.3" vs "678.3 KM", pune rečenice umjesto kratkog odgovora), ne nerazumijevanje — metrika je stroga, ali fer za poređenje (ista za sve).
-- Baseline netreniranog Qwena u toku — dijeli doprinos baze vs adaptera.
+- Baseline netreniranog Qwena: **val 81/217 = 37.3%** (identično SmolVLM2!) → adapter donosi +53pp (37.3→90.3). Trening radi ogroman posao, nije samo baza.
+- Baseline held-out u toku — dijeli bazu od adaptera i na pravim dokumentima.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
