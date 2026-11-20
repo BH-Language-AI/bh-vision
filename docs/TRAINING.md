@@ -94,7 +94,7 @@
 - Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%) — chart zid 24.5% srušen samom bazom.
 - Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline 21.9%) — prava generalizacija, duplo bolje.
 - Analiza grešaka held-out: većina su FORMAT (zarez/tačka, "678.3" vs "678.3 KM", pune rečenice umjesto kratkog odgovora), ne nerazumijevanje — metrika je stroga, ali fer za poređenje (ista za sve).
-- Ispravka: "Qwen baseline" 37.3% (23890360) i 21.9% (23890976) su greškom vrtjeli **SmolVLM2** bazu (eval-base skripta imala fiksiran --base) — to su SmolVLM2 rerunovi, ne Qwen. Pravi Qwen baseline: **val 190/217 = 87.6%** → adapter 90.3% (+2.7pp). Baza nosi lavovski dio, adapter dodaje bosansko fino-podešavanje bez lomljenja. Held-out baseline u toku.
+- Ispravka: "Qwen baseline" 37.3% (23890360) i 21.9% (23890976) su greškom vrtjeli **SmolVLM2** bazu (eval-base skripta imala fiksiran --base) — to su SmolVLM2 rerunovi, ne Qwen. Pravi Qwen baseline: **val 190/217 = 87.6%** → adapter 90.3% (+2.7pp); **held-out 36/73 = 49.3%** = identično adapteru (±0). Na pravim dokumentima sav dobitak je baza; adapter je bezopasan (+2.7 val, +0 held-out).
 - Baseline held-out u toku — dijeli bazu od adaptera i na pravim dokumentima.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
