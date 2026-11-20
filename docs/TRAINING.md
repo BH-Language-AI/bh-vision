@@ -90,6 +90,12 @@
 - Zaključak: ni najveći miks ne pomiče plafon (~46% val / ~23% held-out). Svi pokušaji v4–v10 odbijeni; v3 ckpt-30 ostaje jedini objavljeni model.
 - Cert obnovljen 20.11 → stage OK (sve slike verificirane: 0 nedostaje), trening **job 23881149** predan (small-g, limit 3 h). Nadzor u pozadini.
 
+## LUMI Qwen3B v1 (2026-11-20) — 4B pilot: PROBITAK
+- Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%) — chart zid 24.5% srušen samom bazom.
+- Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline 21.9%) — prava generalizacija, duplo bolje.
+- Analiza grešaka held-out: većina su FORMAT (zarez/tačka, "678.3" vs "678.3 KM", pune rečenice umjesto kratkog odgovora), ne nerazumijevanje — metrika je stroga, ali fer za poređenje (ista za sve).
+- Baseline netreniranog Qwena u toku — dijeli doprinos baze vs adaptera.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
