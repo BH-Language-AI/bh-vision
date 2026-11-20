@@ -88,6 +88,7 @@
 - `data/bhas-bulk/train.jsonl`: 1933 QA (56 stranica + p6 mjesečne tabele; grafovi izbačeni — nema tekstualnog sloja legende).
 - `data/synth10-train.jsonl`: 5535 (synth5 + bulk + plotqa-700, chart 38.9%).
 - Config `smo2b-v10-qlora.yaml`: max 70 koraka (~40% pokrivenosti), save 35. Eval v03-val + held-out.
+- Cert obnovljen 20.11 → stage OK (sve slike verificirane: 0 nedostaje), trening **job 23881149** predan (small-g, limit 3 h). Nadzor u pozadini.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
