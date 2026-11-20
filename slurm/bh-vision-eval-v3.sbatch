@@ -9,7 +9,7 @@
 #SBATCH --time=01:00:00
 #SBATCH --output=bh-vision-eval-v3-%j.out
 # BH-Vision eval v3/v4 — PEFT adapter + checkpointi (sve kao --adapter uz isti base).
-# Upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter-subdir] [max-samples] [eval-jsonl]
+# Upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter] [max-samples] [eval-jsonl] [outtag] [base]
 # Eval default v03-val; held-out: ... out/adapter-smo2b-v3 data/heldout-v01/eval.jsonl
 set -euo pipefail
 JOBDIR="${1:?upotreba: sbatch bh-vision-eval-v3.sbatch <job-dir> [adapter] [max-samples] [eval] [outtag]}"
