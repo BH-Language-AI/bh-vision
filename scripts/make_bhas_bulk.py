@@ -100,7 +100,7 @@ def main():
         rim, rim_prev, god_prev = RIM[mi], RIM[mi - 1], str(int(god) - 1)
         loc = LOC[mj]
         # render potrebnih stranica (naslovnica + tablice)
-        keep = {"01": [1, 2], "02": [1, 2], "04": [1, 4]}
+        keep = {"01": [1, 2], "02": [1, 2], "04": [1, 4, 6, 7]}
         for pg in keep[doc]:
             if pg <= len(d):
                 d[pg - 1].get_pixmap(dpi=150).save(f"{IMG}/{tag}_p{pg}.png")
@@ -159,6 +159,38 @@ def main():
                     v = numbers_after(t, label)
                     if len(v) > idx:
                         qa(img(4), f"Koliki je {q} Odgovori samo brojem.", v[idx], t, ctx0 + "-t")
+            # p6: mjesecne tabele (3 bloka: ukupno/domace/nedomace)
+            if len(pages) >= 6:
+                t6 = pages[5]
+                for bname, bq in [("overall index", "ukupan indeks"),
+                                   ("domestic market", "indeks domaćeg tržišta"),
+                                   ("non-domestic market", "indeks nedomaćeg tržišta")]:
+                    bi = t6.find(bname)
+                    if bi < 0:
+                        continue
+                    seg = t6[bi:bi + 3000]
+                    for sec, sq in [("Prosjek 2021", f"Koliki je {bq} za {loc} {god}. (prosjek 2021=100)? Odgovori samo brojem."),
+                                     ("Prethodni mjesec", f"Koliki je {bq} za {loc} {god}. u odnosu na prethodni mjesec? Odgovori samo brojem.")]:
+                        si = seg.find(sec)
+                        if si < 0:
+                            continue
+                        m = re.search(re.escape(god) + r"\.\s*((?:\d+[.,]\d+\s*){1,12})", seg[si:si + 1500])
+                        if m:
+                            vals = re.findall(r"\d+[.,]\d+", m.group(1))
+                            if len(vals) > mi:
+                                try:
+                                    qa(img(6), sq, norm(tag, vals[mi]), t6, ctx0 + "-m")
+                                except ValueError:
+                                    pass
+            # p7: graf — samo strukturna (legenda stabilna)
+            if len(pages) >= 7:
+                t7 = pages[6]
+                if "ukupno/total" in t7.lower() and "nedoma" in t7.lower():
+                    try:
+                        qa(img(7), "Koliko linija ima na grafu? Odgovori samo brojem.", "3", t7, ctx0 + "-g")
+                        qa(img(7), "Koje je prvo tržište navedeno u legendi grafa? Odgovori doslovno.", "ukupno/total", t7, ctx0 + "-g2")
+                    except ValueError:
+                        pass
         # cijene 02: sve s obje stranice
         if doc == "02":
             for pg in (1, 2):

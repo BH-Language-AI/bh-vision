@@ -84,6 +84,11 @@
 - Zaključak: kratki trening na boljim podacima reproducira ali NE probija plafon (~46% val / ~23% heldout). QLoRA r16 na 2.2B je iscrpljen — za dalje treba veći model (8B), veća rezolucija ili full-finetune.
 - Nijansa: v9 doc 63.4% (najbolji doc dosad, v3 62.6%), chart zid 24.5% svugdje. Objavljen ostaje v3 (verificiran prvi); v9 je validirana alternativa u evidenciji.
 
+## LUMI v10 (2026-11-20) — predan: bulk + kratki trening
+- `data/bhas-bulk/train.jsonl`: 1933 QA (56 stranica + p6 mjesečne tabele; grafovi izbačeni — nema tekstualnog sloja legende).
+- `data/synth10-train.jsonl`: 5535 (synth5 + bulk + plotqa-700, chart 38.9%).
+- Config `smo2b-v10-qlora.yaml`: max 70 koraka (~40% pokrivenosti), save 35. Eval v03-val + held-out.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).

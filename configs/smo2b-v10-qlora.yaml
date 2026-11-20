@@ -1,0 +1,16 @@
+# SmolVLM2-2.2B QLoRA v10 — kratki trening (lekcija v1-v9: broj koraka ubija).
+# synth10: 5535 (synth5 2902 + bhas-bulk 1933 + plotqa-bs 700, chart 38.9%).
+# max 70 koraka (~40% pokrivenosti, zona v3-ckpt30/v9-final), save 35.
+# Eval: v03-val + held-out v01.
+base_model: HuggingFaceTB/SmolVLM2-2.2B-Instruct
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 2.0e-5
+epochs: 1
+max_steps: 70
+save_steps: 35
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train

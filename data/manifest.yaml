@@ -9,7 +9,8 @@ sources:
   - {name: synth4, use: vlastiti-train-chart-tezak, samples: 2613-train/297-val, seed: 104, note: v04 gusca chart QA, CC-BY-4.0}
   - {name: synth5, use: vlastiti-train-balansiran, samples: 2902-train, chart-doc-1451-1451, seed: 7, note: v05 balans chart-doc, CC-BY-4.0}
   - {name: plotqa-bs-v01, use: hf-chart-train, samples: 3000-train/1500-img, note: PlotQA preveden regex pravilima, slike+atribucija CC-BY-4.0, NIKAD eval, fetch scripts/fetch_plotqa_bs.py}
-  - {name: bhas-bulk-v01, use: hf-doc-train, samples: 1825-train, note: bhas 2025+2026 svi mjeseci osim heldout-09/2026, miner scripts/make_bhas_bulk.py, HF: bs-vision-bhas-bulk-v01, CC-BY-4.0+atribucija}
+  - {name: bhas-bulk-v01, use: hf-doc-train, samples: 1933-train, note: bhas 2025+2026 svi mjeseci osim heldout-09/2026 (bez grafova-nema-tekstualnog-sloja), miner scripts/make_bhas_bulk.py, HF: bs-vision-bhas-bulk-v01, CC-BY-4.0+atribucija}
+  - {name: synth10, use: v10-train-mix, samples: 5535-train, chart-38.9, note: synth5 + bhas-bulk + plotqa-bs-700, CC-BY-4.0}
   - {name: synth8, use: v08-train-mix, samples: 5427-train, chart-39.6, note: synth5 + bhas-bulk + plotqa-bs-700, CC-BY-4.0}
   - {name: bhas-train-v01, use: hf-doc-train, samples: 113-train/9-img, note: bhas 08/07-2026 saopcenja, rucno+miner QA, NIKAD held-out-mjesec(09), CC-BY-4.0+atribucija}
   - {name: synth7, use: v07-train-mix, samples: 3015-train, note: synth5 + bhas-train, CC-BY-4.0}
