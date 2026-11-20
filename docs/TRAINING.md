@@ -84,10 +84,10 @@
 - Zaključak: kratki trening na boljim podacima reproducira ali NE probija plafon (~46% val / ~23% heldout). QLoRA r16 na 2.2B je iscrpljen — za dalje treba veći model (8B), veća rezolucija ili full-finetune.
 - Nijansa: v9 doc 63.4% (najbolji doc dosad, v3 62.6%), chart zid 24.5% svugdje. Objavljen ostaje v3 (verificiran prvi); v9 je validirana alternativa u evidenciji.
 
-## LUMI v10 (2026-11-20) — predan: bulk + kratki trening
-- `data/bhas-bulk/train.jsonl`: 1933 QA (56 stranica + p6 mjesečne tabele; grafovi izbačeni — nema tekstualnog sloja legende).
-- `data/synth10-train.jsonl`: 5535 (synth5 + bulk + plotqa-700, chart 38.9%).
-- Config `smo2b-v10-qlora.yaml`: max 70 koraka (~40% pokrivenosti), save 35. Eval v03-val + held-out.
+## LUMI v10 (2026-11-20) — završen, ODBIJEN: plafon treći put potvrđen
+- Trening `smo2b-v10` (synth10: 5535, max 70 koraka): `TRAIN_DONE`.
+- Eval v03-val: **final 88/217 = 40.6%**. Eval held-out: **17/73 = 23.3%** — identično v3 i v9.
+- Zaključak: ni najveći miks ne pomiče plafon (~46% val / ~23% held-out). Svi pokušaji v4–v10 odbijeni; v3 ckpt-30 ostaje jedini objavljeni model.
 - Cert obnovljen 20.11 → stage OK (sve slike verificirane: 0 nedostaje), trening **job 23881149** predan (small-g, limit 3 h). Nadzor u pozadini.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
