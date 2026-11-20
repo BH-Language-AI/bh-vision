@@ -16,3 +16,10 @@ Datum: 2026-11-11. Detalji: `docs/MODELS.md`, `docs/DATASETS.md`.
 3. **AgentMujo Training je tekst-only** (audit Faze 0 BH-LLM-Basic) → za vision treba odvojeni adapter/modul, bez diranja jezičkog dijela.
 4. **Bosanski OCR/dokumenti ne postoje javno** → tehnike na PubLayNet/PlotQA, proxy eval XM3600-hr + postocr-sr, vlastiti held-out set za bs.
 5. Ništa se ne trenira, ne objavljuje (težine), ne redistribuira bez odobrenja i provjere prava.
+
+## 4B klasa — kandidati (status 2026-11-20, pilot nakon OK 2B)
+EU 4B VLM checkpoint ne postoji; najbliže opcije s prihvatljivim licencama:
+- `Qwen/Qwen2.5-VL-3B-Instruct` (Apache-2.0 ✓, ~3B) — najčišći kandidat za "4B" klasu.
+- `openbmb/MiniCPM-V-4.x` (provjeriti Apache-2.0 po verziji; CN porijeklo, ne EU).
+- `google/gemma-3-4b-it`, `gemma-3n-E4B-it` — click-through licenca, samo uz pravnu provjeru (kao i prije za Gemma-3).
+Odluka o 4B bazi + pilot tek nakon potvrđene OK 2B verzije.
