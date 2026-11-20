@@ -18,6 +18,7 @@ AD="/job/$ADPART"
 MAXN="${3:-0}"
 EVALJSON="${4:-data/synth3/val.jsonl}"
 OUTTAG="${5:-}"
+BASE="${6:-HuggingFaceTB/SmolVLM2-2.2B-Instruct}"
 module purge
 module load Local-LAIF lumi-aif-singularity-bindings
 export SIF=/appl/local/laifs/containers/lumi-multitorch-latest.sif
@@ -34,7 +35,7 @@ run_eval() { # $1=adapter-subdir ("" = final) $2=out-json
   # Napomena: bez -f provjere — /job postoji samo UNUTAR kontejnera, provjera na hostu uvijek padne.
   srun --unbuffered singularity exec -B "$JOBDIR:/job" -B /scratch:/scratch "$SIF" \
     python -u /job/training/eval.py --adapter "$AD/$1" \
-      --base HuggingFaceTB/SmolVLM2-2.2B-Instruct --eval "/job/$EVALJSON" \
+      --base "$BASE" --eval "/job/$EVALJSON" \
       --max-samples "$MAXN" --out "/job/out/$2" || echo "EVAL-FAIL $1"
 }
 PFX=$(basename "$ADPART")$OUTTAG

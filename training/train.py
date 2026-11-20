@@ -37,9 +37,11 @@ def main():
         dt = torch.bfloat16 if torch.cuda.is_available() else torch.float32
         model = AutoModelForImageTextToText.from_pretrained(c["base_model"], dtype=dt)
     proc = AutoProcessor.from_pretrained(c["base_model"])
-    if c.get("freeze_vision_encoder") and hasattr(model, "vision_model"):
-        for p in model.vision_model.parameters():
-            p.requires_grad = False
+    if c.get("freeze_vision_encoder"):
+        for attr in ("vision_model", "visual", "vision_tower"):
+            if hasattr(model, attr):
+                for p in getattr(model, attr).parameters():
+                    p.requires_grad = False
 
     ds = load_dataset("json", data_files=a.train, split="train")
 
