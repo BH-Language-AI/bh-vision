@@ -91,14 +91,12 @@
 - Cert obnovljen 20.11 → stage OK (sve slike verificirane: 0 nedostaje), trening **job 23881149** predan (small-g, limit 3 h). Nadzor u pozadini.
 
 ## LUMI Qwen3B v1 (2026-11-20) — 4B pilot: OBJAVLJEN
-- Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%). Eval held-out: **36/73 = 49.3%**.
-- Pravi Qwen baseline: val 87.6% / heldout 49.3% → adapter +2.7pp val, ±0 heldout. Baza nosi, adapter dodaje bez lomljenja.
-- Objavljen kao **BH-Language-AI/bh-vision-1-4b** (adapter 165 MB + kartica s poštenim omjerom), dodat u HF kolekciju.
 - Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%) — chart zid 24.5% srušen samom bazom.
-- Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline 21.9%) — prava generalizacija, duplo bolje.
-- Analiza grešaka held-out: većina su FORMAT (zarez/tačka, "678.3" vs "678.3 KM", pune rečenice umjesto kratkog odgovora), ne nerazumijevanje — metrika je stroga, ali fer za poređenje (ista za sve).
-- Ispravka: "Qwen baseline" 37.3% (23890360) i 21.9% (23890976) su greškom vrtjeli **SmolVLM2** bazu (eval-base skripta imala fiksiran --base) — to su SmolVLM2 rerunovi, ne Qwen. Pravi Qwen baseline: **val 190/217 = 87.6%** → adapter 90.3% (+2.7pp); **held-out 36/73 = 49.3%** = identično adapteru (±0). Na pravim dokumentima sav dobitak je baza; adapter je bezopasan (+2.7 val, +0 held-out).
-- Baseline held-out u toku — dijeli bazu od adaptera i na pravim dokumentima.
+- Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline SmolVLM2: 21.9%) — prava generalizacija, duplo bolje.
+- Pravi Qwen baseline: val 190/217 = 87.6% → adapter +2.7pp; heldout 36/73 = 49.3% = identično adapteru (±0). Baza nosi, adapter dodaje bez lomljenja.
+- Sistemska instrukcija ("odgovaraj isključivo kratko..."): val **200/217 = 92.2%** (+1.9pp), held-out **40/73 = 54.8%** (+5.5pp) — najjeftiniji dobitak, bez treninga; preporučeni način korištenja na kartici.
+- Analiza grešaka held-out: većina preostalih su FORMAT (zarez/tačka, jedinice, pune rečenice), ne nerazumijevanje; blaga metrika daje 74%.
+- Objavljen kao **BH-Language-AI/bh-vision-1-4b** (adapter 165 MB + kartica s poštenim omjerom baza/adapter), dodat u HF kolekciju.
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
