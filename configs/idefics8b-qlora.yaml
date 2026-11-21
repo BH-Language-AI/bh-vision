@@ -1,4 +1,4 @@
-# Idefics3-8B QLoRA — TEK NAKON pravne provjere Llama-3.1 roditeljske licence. Ne trenirati bez odobrenja.
+# Idefics3-8B QLoRA — TEK NAKON pravne provjere Llama-3.1 roditeljske licence. Pokrenuto po nalogu vlasnika 2026-11-21 (licence potvrdjene s vlasnikove strane).
 # Recept osvježen po lekcijama v1-v10: kratko (max 40 koraka), lr 2e-5, r16, frozen.
 base_model: HuggingFaceM4/Idefics3-8B-Llama3
 method: qlora-4bit
@@ -12,4 +12,4 @@ effective_batch: 32
 max_length: null
 eval_proxy: [xm3600-hr, postocr-sr]
 held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train
-gated: true # pravna provjera + odobrenje obavezni
+gated: false # odobreno 2026-11-21
