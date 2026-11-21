@@ -90,6 +90,11 @@
 - Zaključak: ni najveći miks ne pomiče plafon (~46% val / ~23% held-out). Svi pokušaji v4–v10 odbijeni; v3 ckpt-30 ostaje jedini objavljeni model.
 - Cert obnovljen 20.11 → stage OK (sve slike verificirane: 0 nedostaje), trening **job 23881149** predan (small-g, limit 3 h). Nadzor u pozadini.
 
+## LUMI Idefics3-8B v1 (2026-11-21) — završen, ODBIJEN: slabija baza + trening šteti
+- Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **adapter 79/217 = 36.4%** (baza 90/217 = 41.5% → trening ŠTETI -5.1pp, ista bolest kao v1).
+- Eval held-out: **adapter 17/73 = 23.3%, baza 18/73 = 24.7%** (= v3 nivo, trening blago šteti i ovdje).
+- Zaključak: Idefics3-8B baza (41.5%/24.7%) je daleko ispod Qwena (87.6%/49.3%), a adaptacija je degradira. 8B se ne objavljuje; Qwen 4B ostaje šampion.
+
 ## LUMI Qwen3B v1 (2026-11-20) — 4B pilot: OBJAVLJEN
 - Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **final 196/217 = 90.3%** (chart 87.2%, doc 92.7%) — chart zid 24.5% srušen samom bazom.
 - Eval held-out: **36/73 = 49.3%** (v3: 23.3%, baseline SmolVLM2: 21.9%) — prava generalizacija, duplo bolje.
