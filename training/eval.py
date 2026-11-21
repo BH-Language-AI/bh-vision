@@ -14,6 +14,7 @@ def main():
     ap.add_argument("--eval", required=True)
     ap.add_argument("--max-samples", type=int, default=0, help="0 = svi")
     ap.add_argument("--out", default=None, help="opcionalno: snimi rezultate u JSON")
+    ap.add_argument("--system", default="", help="opcionalna sistemska instrukcija (prefiks svim pitanjima)")
     a = ap.parse_args()
     proc = AutoProcessor.from_pretrained(a.base)
     model = AutoModelForImageTextToText.from_pretrained(a.base, device_map="auto")
@@ -28,6 +29,8 @@ def main():
             break
         ex = json.loads(line)
         msgs, gold = ex["messages"][:-1], ex["messages"][-1]["content"][0]["text"]
+        if a.system:
+            msgs = [{"role": "system", "content": [{"type": "text", "text": a.system}]}] + msgs
         imgs = [Image.open(p).convert("RGB") for p in ex["images"]]
         text = proc.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
         inp = proc(text=text, images=imgs, return_tensors="pt").to(model.device)
