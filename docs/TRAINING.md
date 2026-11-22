@@ -71,6 +71,12 @@
 - Eval held-out v01: **final 16/73 = 21.9%, ckpt-60 18/73 = 24.7%** vs v3 23.3% vs baseline 21.9% — unutar šuma (±5pp na 73 uzorka), bez stvarnog pomaka.
 - Zaključak: 113 real-doc QA nije dovoljno da se generalizacija pomakne; treba RED VELIČINE više pravih dokumenata (svi bhas mjeseci + drugi izvori), ili drugačiji pristup. Trening-spirala pauzirana: v3 ostaje jedini objavljeni model.
 
+## LUMI Pixtral-12B v1 (2026-11-21/22) — završen, ODBIJEN: veći model, slabiji rezultat
+- Trening (synth7, max 40 koraka): `TRAIN_DONE` (trebalo trust_remote_code + community konverzija jer službeni repo nije transformers-format).
+- Eval v03-val: baza **147/217 = 67.7%** → adapter **152/217 = 70.0%** (+2.3pp).
+- Eval held-out: baza **22/73 = 30.1%** → adapter **21/73 = 28.8%** (-1.3pp, šum).
+- Zaključak: 12B je točno između 2B (46.1%/23.3%) i 4B (90.3%/49.3%) — veće NE znači bolje na ovom zadatku; Qwenova arhitektura/trening odnosi prevagu. 12B se ne objavljuje; 4B ostaje šampion.
+
 ## LUMI v8 (2026-11-19/20) — završen, ODBIJEN: najduži trening, najdublja memorizacija
 - Trening `smo2b-v8` (synth8: 5427, 170 koraka): `TRAIN_DONE`.
 - Eval v03-val: **final 12/217 = 5.5%, ckpt-150 7/217 = 3.2%**. Eval held-out: **0/73**.
