@@ -1,6 +1,8 @@
 # Pixtral-12B-2409 QLoRA (12B klasa, EU + Apache-2.0) — pilot po nalogu vlasnika 2026-11-22.
-# Recept po lekcijama v1-v10 + Qwen/8B: kratko (max 40 koraka), lr 2e-5, r16, frozen vision.
-base_model: mistralai/Pixtral-12B-2409
+# NAPOMENA: sluzbeni mistralai/Pixtral-12B-2409 je u originalnom Mistral formatu
+# (consolidated.safetensors + params.json) i NE radi s transformersima — koristi se
+# community konverzija mistral-community/pixtral-12b (isti checkpoint, HF format, apache-2.0).
+base_model: mistral-community/pixtral-12b
 method: qlora-4bit
 lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
 freeze_vision_encoder: true
