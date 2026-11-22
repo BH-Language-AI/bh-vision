@@ -4,7 +4,7 @@ sources:
   - {name: PlotQA, use: chart-qa-tehnika, annotations: CC-BY-4.0-MIT, images: sinteticke}
   - {name: XM3600-hr, use: proxy-eval-samo, annotations: CC-BY-4.0, note: NIKAD u train}
   - {name: postocr-sr, use: proxy-eval-samo, annotations: CC-BY-4.0, note: NIKAD u train}
-  - {name: bs-vision-ocr-heldout-v01, use: held-out-eval, samples: 73-QA/19-str, note: NIKAD u train, status: NAPUNJEN v01 bhas.gov.ba, CC-BY-4.0+atribucija}
+  - {name: bs-vision-ocr-heldout-v01, use: held-out-eval, samples: 73-QA-v01/87-QA-v02, note: NIKAD u train, status: v02 dodan FZS-09/2026, CC-BY-4.0+atribucija}
   - {name: synth3, use: vlastiti-train, samples: 1962-train/217-val, note: split-po-slici, CC-BY-4.0}
   - {name: synth4, use: vlastiti-train-chart-tezak, samples: 2613-train/297-val, seed: 104, note: v04 gusca chart QA, CC-BY-4.0}
   - {name: synth5, use: vlastiti-train-balansiran, samples: 2902-train, chart-doc-1451-1451, seed: 7, note: v05 balans chart-doc, CC-BY-4.0}

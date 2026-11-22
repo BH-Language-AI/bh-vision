@@ -12,10 +12,13 @@ IMG = os.getenv("IMG", "data/fzs-train/img")
 OUT = os.getenv("OUT", "data/fzs-train")
 os.makedirs(IMG, exist_ok=True)
 
-NOM = ["januar", "februar", "mart", "april", "maj", "juni", "juli", "avgust"]
+NOM = ["januar", "februar", "mart", "april", "maj", "juni", "juli", "avgust",
+       "septembar", "oktobar", "novembar", "decembar"]
 LOC = {"januar": "januaru", "februar": "februaru", "mart": "martu", "april": "aprilu",
-       "maj": "maju", "juni": "junu", "juli": "julu", "avgust": "avgustu"}
-RIM = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+       "maj": "maju", "juni": "junu", "juli": "julu", "avgust": "avgustu",
+       "septembar": "septembru", "oktobar": "oktobru", "novembar": "novembru",
+       "decembar": "decembru"}
+RIM = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 
 rows = []
 
