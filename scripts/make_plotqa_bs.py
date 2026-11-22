@@ -14,6 +14,7 @@ import re
 OUT = os.getenv("OUT", "data/plotqa-bs")
 IMG = f"{OUT}/img"
 N_SHARDS = int(os.getenv("N_SHARDS", "1"))
+SHARD_START = int(os.getenv("SHARD_START", "0"))
 MAX_QA = int(os.getenv("MAX_QA", "3000"))
 SEED = int(os.getenv("SEED", "11"))
 random.seed(SEED)
@@ -111,7 +112,7 @@ def main():
     api = HfApi(token=tok)
     info = api.dataset_info("nimapourjafar/mm_plotqa")
     shards = sorted(s.rfilename for s in (info.siblings or [])
-                    if s.rfilename.startswith("data/train-"))[:N_SHARDS]
+                    if s.rfilename.startswith("data/train-"))[SHARD_START:SHARD_START + N_SHARDS]
     import pandas as pd
     rows_out, n_img, n_skip = [], 0, 0
     for sh in shards:

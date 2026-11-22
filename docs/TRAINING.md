@@ -109,6 +109,10 @@
 - Analiza grešaka held-out: većina preostalih su FORMAT (zarez/tačka, jedinice, pune rečenice), ne nerazumijevanje; blaga metrika daje 74%.
 - Objavljen kao **BH-Language-AI/bh-vision-1-4b** (adapter 165 MB + kartica s poštenim omjerom baza/adapter), dodat u HF kolekciju.
 
+## LUMI 8B v2 (2026-11-22) — predan: prošireni mix
+- Novi podaci: FZS CPI 01-08/2026 (108 QA, drugi layout, vizualno verificirano) + PlotQA shard 2 (1500 QA) — oba na HF-u.
+- `synth11`: 7143 (chart 51.1%). Config `idefics8b-v2-qlora.yaml`, max 40 koraka. Cilj: pomaknuti 8B s 36.4%/23.3%.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
