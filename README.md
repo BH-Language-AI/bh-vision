@@ -30,6 +30,7 @@ Prvi bosanski vision-language projekat: adaptacija otvorenih VLM-ova na bosanski
 | v4 / v6 / v8 | 3–17% | — | 0–22% | ❌ kolapsi |
 | **Qwen3B+adapter 4B** (40 koraka) | **90.3%** | **87.2%** | **92.7%** | ✅ **objavljen** |
 | Idefics3-8B baza / +adapter | 41.5% / 36.4% | — | — | ❌ trening šteti |
+| Pixtral-12B baza / +adapter | 67.7% / 70.0% | — | — | ❌ ispod 4B |
 
 ## 🧪 Held-out — pravi bhas dokumenti (73 QA)
 
@@ -39,7 +40,8 @@ Prvi bosanski vision-language projekat: adaptacija otvorenih VLM-ova na bosanski
 | **v3 ckpt-30** | **23.3%** | generalizira (slabije, ali stvarno) |
 | v5 / v7 / v9 | 21–25% | u šumu — synth se slabo prenosi |
 | **Qwen3B+adapter 4B** | **49.3%** (baza 49.3%) | ✅ **objavljen** |
-| Idefics3-8B baza / +adapter | 24.7% / 23.3% | ❌ odbijen |
+| Idefics3-8B baza / +adapter | 41.5% / 36.4% | ❌ odbijen |
+| Pixtral-12B baza / +adapter | 30.1% / 28.8% | ❌ odbijen (isplativije 4B) |
 
 ## ✅ Testovi
 
