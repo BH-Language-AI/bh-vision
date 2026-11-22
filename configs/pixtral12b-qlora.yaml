@@ -1,0 +1,15 @@
+# Pixtral-12B-2409 QLoRA (12B klasa, EU + Apache-2.0) — pilot po nalogu vlasnika 2026-11-22.
+# Recept po lekcijama v1-v10 + Qwen/8B: kratko (max 40 koraka), lr 2e-5, r16, frozen vision.
+base_model: mistralai/Pixtral-12B-2409
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 2.0e-5
+epochs: 1
+max_steps: 40
+save_steps: 20
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train
+gated: false # Apache-2.0 + EU, pilot odobren 2026-11-22

@@ -38,7 +38,7 @@ def main():
         model = AutoModelForImageTextToText.from_pretrained(c["base_model"], dtype=dt)
     proc = AutoProcessor.from_pretrained(c["base_model"])
     if c.get("freeze_vision_encoder"):
-        for attr in ("vision_model", "visual", "vision_tower"):
+        for attr in ("vision_model", "visual", "vision_tower", "vision_encoder"):
             if hasattr(model, attr):
                 for p in getattr(model, attr).parameters():
                     p.requires_grad = False
