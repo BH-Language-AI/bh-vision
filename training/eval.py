@@ -16,8 +16,8 @@ def main():
     ap.add_argument("--out", default=None, help="opcionalno: snimi rezultate u JSON")
     ap.add_argument("--system", default="", help="opcionalna sistemska instrukcija (prefiks svim pitanjima)")
     a = ap.parse_args()
-    proc = AutoProcessor.from_pretrained(a.base)
-    model = AutoModelForImageTextToText.from_pretrained(a.base, device_map="auto")
+    proc = AutoProcessor.from_pretrained(a.base, trust_remote_code=True)
+    model = AutoModelForImageTextToText.from_pretrained(a.base, device_map="auto", trust_remote_code=True)
     if a.adapter:
         model = PeftModel.from_pretrained(model, a.adapter)
     ok, n = 0, 0
