@@ -32,11 +32,11 @@ def main():
     if a.quant == "4bit":
         bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16)
         model = AutoModelForImageTextToText.from_pretrained(
-            c["base_model"], quantization_config=bnb, device_map={"": 0} if torch.cuda.is_available() else "auto", trust_remote_code=True)
+            c["base_model"], quantization_config=bnb, device_map={"": 0} if torch.cuda.is_available() else "auto", trust_remote_code=c.get("trust_remote_code", False))
     else:
         dt = torch.bfloat16 if torch.cuda.is_available() else torch.float32
-        model = AutoModelForImageTextToText.from_pretrained(c["base_model"], dtype=dt, trust_remote_code=True)
-    proc = AutoProcessor.from_pretrained(c["base_model"], trust_remote_code=True)
+        model = AutoModelForImageTextToText.from_pretrained(c["base_model"], dtype=dt, trust_remote_code=c.get("trust_remote_code", False))
+    proc = AutoProcessor.from_pretrained(c["base_model"], trust_remote_code=c.get("trust_remote_code", False))
     if c.get("freeze_vision_encoder"):
         for attr in ("vision_model", "visual", "vision_tower", "vision_encoder"):
             if hasattr(model, attr):

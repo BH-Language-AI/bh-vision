@@ -2,6 +2,8 @@
 # NAPOMENA: sluzbeni mistralai/Pixtral-12B-2409 je u originalnom Mistral formatu
 # (consolidated.safetensors + params.json) i NE radi s transformersima — koristi se
 # community konverzija mistral-community/pixtral-12b (isti checkpoint, HF format, apache-2.0).
+# trust_remote_code: true jer transformers 5.22 bez TRC ne prepoznaje repo (nema model_type u korijenskom configu).
+trust_remote_code: true
 base_model: mistral-community/pixtral-12b
 method: qlora-4bit
 lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
