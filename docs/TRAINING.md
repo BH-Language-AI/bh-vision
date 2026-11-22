@@ -109,9 +109,10 @@
 - Analiza grešaka held-out: većina preostalih su FORMAT (zarez/tačka, jedinice, pune rečenice), ne nerazumijevanje; blaga metrika daje 74%.
 - Objavljen kao **BH-Language-AI/bh-vision-1-4b** (adapter 165 MB + kartica s poštenim omjerom baza/adapter), dodat u HF kolekciju.
 
-## LUMI 8B v2 (2026-11-22) — predan: prošireni mix
-- Novi podaci: FZS CPI 01-08/2026 (108 QA, drugi layout, vizualno verificirano) + PlotQA shard 2 (1500 QA) — oba na HF-u.
-- `synth11`: 7143 (chart 51.1%). Config `idefics8b-v2-qlora.yaml`, max 40 koraka. Cilj: pomaknuti 8B s 36.4%/23.3%.
+## LUMI 8B v2 (2026-11-22) — završen, ODBIJEN: ni prošireni podaci ne pomažu
+- Trening (synth11: 7143, max 40 koraka): `TRAIN_DONE`. Eval v03-val: **80/217 = 36.9%** (= v1 36.4%). Eval held-out: **16/73 = 21.9%** (v1 23.3%, = baseline SmolVLM2).
+- Usputni fix: eval padao jer je globalni trust_remote_code učitao drugu arhitekturu (4608 vs 10368) — sada opcija po modelu.
+- Konačna presuda 8B: baza slaba + trening ne pomaže ni s najboljim podacima. 8B zatvoren; Qwen 4B ostaje jedini šampion (90.3%/49.3%, sa sistemskom instrukcijom 92.2%/54.8%).
 
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
