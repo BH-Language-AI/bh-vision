@@ -90,7 +90,8 @@
 ## BH-Vision-1-4B-v2 (2026-11-23) — zadatak: kontrolisano unapređenje, baza se NE mijenja
 - Revizija stanja: config v1 (r16/a32, lr 2e-5, max 40, synth7 3015), adapter verificiran (828 LoRA tenzora, r16). Reference v1: val 90.3% (92.2% sys), heldout v01 49.3% (54.8% sys), v02 52.9% (sys).
 - Revizija podataka: 2 duplikata + **5 val slika u treningu (isti hash, različita imena!)** — tvrdnja "split bez curenja" nije važila za tih 5. Held-out čist (0 preklapanja). Očišćeno: `synth7fix` (3005).
-- Eksperimenti (jedna promjena odjednom): **v2a** = isti recept + očišćeni podaci (val 89.4%/91.2% sys, heldout 54.8%/52.9% sys — decimalno identično v1, čišćenje ne mijenja ništa); **v2b** = r32/a64 + očišćeni podaci (trening u toku).
+- Eksperimenti (jedna promjena odjednom): **v2a** = isti recept + očišćeni podaci (val 89.4%/91.2% sys, heldout 54.8%/52.9% sys — decimalno identično v1); **v2b** = r32/a64 (val 87.1%/89.4% sys, heldout 54.8%/50.6% sys — LOŠIJE od r16 svugdje).
+- Presuda: ni čišćenje ni rank 32 ne daju mjerljivo poboljšanje na stvarnom skupu (heldout v01/v02 identičan ili lošiji). **v2 se NE objavljuje** — v1 ostaje. Nalaz: rank 16 > rank 32 za ovaj zadatak; curenje od 5 slika nije uticalo na zaključke (v2a ≈ v1).
 
 ## LUMI v9 (2026-11-20) — završen: PLAFON POTVRĐEN, v3 ostaje
 - Trening `smo2b-v9` (synth7: 3015, max 40 koraka): `TRAIN_DONE`.
