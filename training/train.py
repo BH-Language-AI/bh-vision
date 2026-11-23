@@ -26,6 +26,7 @@ def main():
     ap.add_argument("--out", default="releases/adapter-v01")
     ap.add_argument("--quant", default="4bit", choices=["4bit", "none"],
                     help="4bit = bitsandbytes (CUDA); none = bf16 LoRA (LUMI ROCm / CPU)")
+    ap.add_argument("--system", default="", help="opcionalna sistemska instrukcija (ista mora u eval)")
     a = ap.parse_args()
     c = yaml.safe_load(open(a.config))
 
@@ -46,7 +47,10 @@ def main():
     ds = load_dataset("json", data_files=a.train, split="train")
 
     def fmt(ex):
-        text = proc.apply_chat_template(ex["messages"], tokenize=False)
+        msgs = ex["messages"]
+        if a.system:
+            msgs = [{"role": "system", "content": [{"type": "text", "text": a.system}]}] + msgs
+        text = proc.apply_chat_template(msgs, tokenize=False)
         return {"text": text, "images": ex["images"]}
 
     ds = ds.map(fmt, remove_columns=[k for k in ds.column_names if k not in ("images",)])
