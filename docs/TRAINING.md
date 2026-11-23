@@ -58,6 +58,11 @@
 - Zaključak: chart 24.5% je zid za QLoRA r16 na 2.2B s ovim podacima — precizno očitanje vrijednosti se ne uči ovako. Treba drugačiji pristup (veća rezolucija, full-finetune, ili baza s jačim chartovima), ne još jedan isti trening.
 - v3 ckpt-30 (46.1%) ostaje šampion i objavljeni model. Trening-spirala se ovdje zaustavlja; sljedeće: held-out pravim dokumentima, 8B klasa, ili chart-specific pristup.
 
+## BH held-out v03 (2026-11-23) — 101 QA, prvi skor: 48.5%
+- +14 FZS oktobar (gušća 7-kolonska tabela). Qwen v2+sys: **49/101 = 48.5%** (starih 87: 52.9%, novih 14: 21.4%).
+- Novi promašaji su pravi (susjedne kolone/redovi u gušćoj tabeli), ne format. Oktobarska tabela je najteži layout dosad.
+- Metrička napomena: v01 gold koristi zareze (kao na slici), FZS gold tačke (kao text-layer) — stroga metrika ih tretira različito; blaga metrika u analizama.
+
 ## BH held-out v02 (2026-11-22) — proširen FZS septembrom
 - 87 QA (v01 73 + 14 FZS 09/2026, drugi layout). Qwen+adapter+instrukcija: **46/87 = 52.9%** (v01 dio ~54.8%, novih 14 teži — očekivano, novi layout).
 - v01 ostaje zamrznuta za uporedivost; v02 je novi glavni metar.
