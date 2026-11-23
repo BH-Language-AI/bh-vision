@@ -92,6 +92,7 @@
 - Revizija podataka: 2 duplikata + **5 val slika u treningu (isti hash, različita imena!)** — tvrdnja "split bez curenja" nije važila za tih 5. Held-out čist (0 preklapanja). Očišćeno: `synth7fix` (3005).
 - Eksperimenti (jedna promjena odjednom): **v2a** = isti recept + očišćeni podaci (val 89.4%/91.2% sys, heldout 54.8%/52.9% sys — decimalno identično v1); **v2b** = r32/a64 (val 87.1%/89.4% sys, heldout 54.8%/50.6% sys — LOŠIJE od r16 svugdje).
 - Presuda: ni čišćenje ni rank 32 ne daju mjerljivo poboljšanje na stvarnom skupu (heldout v01/v02 identičan ili lošiji). **v2 se NE objavljuje** — v1 ostaje. Nalaz: rank 16 > rank 32 za ovaj zadatak; curenje od 5 slika nije uticalo na zaključke (v2a ≈ v1).
+- **v2c** (lr 1e-5, jedina promjena): val 90.3%/93.5% sys, heldout 56.2%/54.0% sys — konzistentno +1pp svugdje iznad v1, ali ispod praga uvjerljivosti (sve unutar šuma pojedinačno). Smjer dobar, dokaz slab.
 
 ## LUMI v9 (2026-11-20) — završen: PLAFON POTVRĐEN, v3 ostaje
 - Trening `smo2b-v9` (synth7: 3015, max 40 koraka): `TRAIN_DONE`.
