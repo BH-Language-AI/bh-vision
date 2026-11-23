@@ -82,6 +82,11 @@
 - v3 ckpt-30 (30 koraka, 46.1%) ostaje šampion.
 - Podaci v8: `bhas-bulk` 1825 QA (56 stranica) + `synth8` 5427 mix; miner verificiran.
 
+## LUMI Qwen3B v12 (2026-11-23) — završen, ODBIJEN: format se ne uči treningom
+- Trening sa sistemskom instrukcijom u treningu (synth7, max 40 koraka): `TRAIN_DONE`.
+- Eval s istom instrukcijom: val **201/217 = 92.6%** (v1+sys 92.2%), held-out v02 **46/87 = 52.9%** (v1+sys 52.9%) — identično, nikakav dobitak.
+- Zaključak: disciplina formata se ne prenosi treningom u ovom setupu; inference instrukcija je sve što ima. v1 ostaje objavljeni 4B.
+
 ## LUMI v9 (2026-11-20) — završen: PLAFON POTVRĐEN, v3 ostaje
 - Trening `smo2b-v9` (synth7: 3015, max 40 koraka): `TRAIN_DONE`.
 - Eval v03-val: **final 101/217 = 46.5%** (v3: 46.1%). Eval held-out: **17/73 = 23.3%** (v3: 23.3%).
