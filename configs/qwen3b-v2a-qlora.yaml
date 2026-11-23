@@ -1,0 +1,15 @@
+# Qwen2.5-VL-3B QLoRA v2a — KONTROLA: isti recept kao v1, ali ocisceni podaci.
+# synth7fix (3005): izbacena 2 duplikata + 8 redova s 5 slika koje cure u val.
+base_model: Qwen/Qwen2.5-VL-3B-Instruct
+method: qlora-4bit
+lora: {r: 16, alpha: 32, dropout: 0.05, target: all-linear}
+freeze_vision_encoder: true
+lr: 2.0e-5
+epochs: 1
+max_steps: 40
+save_steps: 20
+effective_batch: 32
+max_length: null # ne truncirati — TRL briše image tokene
+eval_proxy: [xm3600-hr, postocr-sr]
+held_out: BH-Language-AI/bs-vision-ocr-heldout-v01 # NIKAD u train
+gated: false # odobreno 2026-11-20, v2 zadatak 2026-11-23

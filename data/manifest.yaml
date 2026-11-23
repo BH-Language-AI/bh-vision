@@ -16,3 +16,4 @@ sources:
   - {name: synth8, use: v08-train-mix, samples: 5427-train, chart-39.6, note: synth5 + bhas-bulk + plotqa-bs-700, CC-BY-4.0}
   - {name: bhas-train-v01, use: hf-doc-train, samples: 113-train/9-img, note: bhas 08/07-2026 saopcenja, rucno+miner QA, NIKAD held-out-mjesec(09), HF: bs-vision-bhas-train-v01, CC-BY-4.0+atribucija}
   - {name: synth7, use: v07-train-mix, samples: 3015-train, note: synth5 + bhas-train, CC-BY-4.0}
+  - {name: synth7fix, use: v2-train-ciscen, samples: 3005-train, note: synth7 minus 2 duplikata i 8 redova s 5 slika koje cure u val (isti hash!), CC-BY-4.0}
