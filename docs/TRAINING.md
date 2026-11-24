@@ -136,6 +136,11 @@
 - Usputni fix: eval padao jer je globalni trust_remote_code učitao drugu arhitekturu (4608 vs 10368) — sada opcija po modelu.
 - Konačna presuda 8B: baza slaba + trening ne pomaže ni s najboljim podacima. 8B zatvoren; Qwen 4B ostaje jedini šampion (90.3%/49.3%, sa sistemskom instrukcijom 92.2%/54.8%).
 
+## Produkcijska validacija (2026-11-24) — download + load + inference s HF-a
+- Sva 3 objavljena adaptera skinuta s HF-a, safetensors + tokenizer verificirani.
+- CPU smoke bh-vision-1-2b (baza + adapter s HF-a, 1 val uzorak): pipeline radi end-to-end (load OK, generacija OK).
+- Zaključak: publikovani artefakti su tehnički ispravni i upotrebljivi.
+
 ## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
