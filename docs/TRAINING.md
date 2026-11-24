@@ -80,6 +80,11 @@
 - Eval held-out: baza **22/73 = 30.1%** → adapter **21/73 = 28.8%** (-1.3pp, šum).
 - Zaključak: 12B je točno između 2B (46.1%/23.3%) i 4B (90.3%/49.3%) — veće NE znači bolje na ovom zadatku; Qwenova arhitektura/trening odnosi prevagu. 12B se ne objavljuje; 4B ostaje šampion.
 
+## LUMI Qwen7B v1 (2026-11-24) — produkcijska 8B: pred objavom
+- Trening (synth7, max 40 koraka): `TRAIN_DONE`. Eval v03-val: baza **193/217 = 88.9%** → adapter 192/217 = 88.5% → adapter+sys **203/217 = 93.5%**.
+- Eval held-out v02+sys adapter: **51/87 = 58.6%** (4B: 54.0%). Baza held-out u toku.
+- Bar (val >90%, heldout >50%): pada sa sistemskom instrukcijom. Odluka o objavi po base-heldout broju.
+
 ## LUMI v8 (2026-11-19/20) — završen, ODBIJEN: najduži trening, najdublja memorizacija
 - Trening `smo2b-v8` (synth8: 5427, 170 koraka): `TRAIN_DONE`.
 - Eval v03-val: **final 12/217 = 5.5%, ckpt-150 7/217 = 3.2%**. Eval held-out: **0/73**.
