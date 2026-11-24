@@ -56,7 +56,7 @@ python3 scripts/qc_license.py        # gate: blokira trening na nečistim licenc
 
 | Šta | Gdje |
 |---|---|
-| 🤗 Modeli (2B ✅, **4B ✅ + v2 ✅ novi**, 8B/12B placeholderi) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
+| 🤗 Modeli (2B ✅, 4B ✅ + v2 ✅, **8B ✅ Qwen**, 12B placeholder) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
 | 📦 Trening setovi (synth3–10, plotqa-bs, bhas-bulk) | [HF dataseti](https://huggingface.co/datasets/BH-Language-AI/bs-vision-bhas-bulk-v01) + `data/manifest.yaml` |
 | 🧪 Held-out (73 ručna QA, bhas 09/2026) | [bs-vision-ocr-heldout-v01](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01) |
 | 📖 Odluke, registar, roadmap | [BH-LANGUAGE-AI](https://github.com/BH-Language-AI) (interni plan) |
