@@ -1,0 +1,7 @@
+torch
+transformers==5.22.2
+peft==0.21.2
+accelerate
+gradio>=5
+pillow
+huggingface-hub
