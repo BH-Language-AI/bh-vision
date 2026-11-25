@@ -146,6 +146,8 @@
 - Smoke kroz llama.cpp na CPU-u: tačan odgovor. Objavljeno kao **bh-vision-1-4b-v2-gguf** + kartica, u kolekciji.
 - Demo Space kod u `demo/` — blokiran 402 (treba billing na orgu).
 - Lekcija: `--mmproj` izvozi SAMO vision dio; tekst ide odvojeno bez zastavice.
+
+## Mini 500M (2026-11-17) — negativan rezultat
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
 - Netrenirani 2.2B baseline na istim tipovima: 7/10. Zaključak: 500M-video je preslab i/ili 24 koraka premalo — nije presuda za 2.2B put.
