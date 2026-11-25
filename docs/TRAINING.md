@@ -141,7 +141,11 @@
 - CPU smoke bh-vision-1-2b (baza + adapter s HF-a, 1 val uzorak): pipeline radi end-to-end (load OK, generacija OK).
 - Zaključak: publikovani artefakti su tehnički ispravni i upotrebljivi.
 
-## Mini 500M (2026-11-17) — negativan rezultat
+## GGUF + demo (2026-11-25) — produkcijsko pakovanje 4B-v2
+- Merge (baza + v2 adapter) → GGUF: tekst 5.8G f16 + mmproj 1.3G → **Q4_K_M 1.8G**.
+- Smoke kroz llama.cpp na CPU-u: tačan odgovor. Objavljeno kao **bh-vision-1-4b-v2-gguf** + kartica, u kolekciji.
+- Demo Space kod u `demo/` — blokiran 402 (treba billing na orgu).
+- Lekcija: `--mmproj` izvozi SAMO vision dio; tekst ide odvojeno bez zastavice.
 - Kernel `admiragic/bh-vision-mini-500m-v1`, T4, 24 koraka QLoRA r16 + eval 10 val uzoraka istim kernelom.
 - Eval: **0/10 normalized** (eho prompta, halucinacije: `august→"Jednak je mjesec..."`, `10→"Špatičnost..."`).
 - Netrenirani 2.2B baseline na istim tipovima: 7/10. Zaključak: 500M-video je preslab i/ili 24 koraka premalo — nije presuda za 2.2B put.
