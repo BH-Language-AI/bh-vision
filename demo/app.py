@@ -5,7 +5,7 @@ from transformers import AutoModelForImageTextToText, AutoProcessor
 from peft import PeftModel
 
 BASE = "Qwen/Qwen2.5-VL-3B-Instruct"
-ADAPTER = "BH-Language-AI/bh-vision-1-4b-v2"
+ADAPTER = "BH-Language-AI/bh-vision-1-4b"
 SYSTEM = ("Odgovaraj iskljucivo kratko: samo trazeni broj, naziv ili Da/Ne. "
           "Bez objasnjenja i bez dodanih rijeci.")
 
@@ -36,6 +36,6 @@ demo = gr.Interface(
     inputs=[gr.Image(type="pil", label="Slika (dokument, tabela, chart)"),
             gr.Textbox(label="Pitanje na bosanskom", value="Koliki je ukupan iznos na računu? Odgovori samo iznosom.")],
     outputs=gr.Textbox(label="Odgovor"),
-    title="BH-Vision-1-4B-v2 — bosanski vizuelni AI",
-    description="Val 93.5% · held-out 52.9% (pravi bhas dokumenti). Adapter: BH-Language-AI/bh-vision-1-4b-v2.")
+    title="BH-Vision-1-4B — bosanski vizuelni AI",
+    description="Val 90.3% · held-out 49.3% (54.8% sa sistemskom instrukcijom, pravi bhas dokumenti). Adapter: BH-Language-AI/bh-vision-1-4b.")
 demo.launch()

@@ -5,7 +5,7 @@
 [![HF Collection](https://img.shields.io/badge/🤗_Collection-BH--Vision-yellow.svg)](https://huggingface.co/collections/BH-Language-AI/bh-vision)
 [![Model 2B](https://img.shields.io/badge/🏆_2B-v3_46.1%25-brightgrey.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-2b)
 [![Model 4B](https://img.shields.io/badge/🚀_4B-v1_90.3%25-brightgreen.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-4b)
-[![Model 4B-v2](https://img.shields.io/badge/🚀_4B--v2_93.5%25-brightgreen.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-4b-v2)
+[![Model 8B](https://img.shields.io/badge/🚀_8B-v1_93.5%25-brightgreen.svg)](https://huggingface.co/BH-Language-AI/bh-vision-1-8b)
 [![Held-out](https://img.shields.io/badge/🧪_held--out-73_QA-blue.svg)](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01)
 [![Tests](https://img.shields.io/badge/✅_tests-2%2F2_passing-brightgreen.svg)](tests/)
 [![CI](https://github.com/BH-Language-AI/bh-vision/actions/workflows/ci.yml/badge.svg)](https://github.com/BH-Language-AI/bh-vision/actions)
@@ -56,7 +56,7 @@ python3 scripts/qc_license.py        # gate: blokira trening na nečistim licenc
 
 | Šta | Gdje |
 |---|---|
-| 🤗 Modeli (2B ✅, 4B ✅ + v2 ✅, **8B ✅ Qwen**, **GGUF ✅**, 12B placeholder) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
+| 🤗 Modeli (2B ✅, 4B ✅, **8B ✅ Qwen**) | [HF kolekcija BH-Vision](https://huggingface.co/collections/BH-Language-AI/bh-vision) |
 | 📦 Trening setovi (synth3–10, plotqa-bs, bhas-bulk) | [HF dataseti](https://huggingface.co/datasets/BH-Language-AI/bs-vision-bhas-bulk-v01) + `data/manifest.yaml` |
 | 🧪 Held-out (73 ručna QA, bhas 09/2026) | [bs-vision-ocr-heldout-v01](https://huggingface.co/datasets/BH-Language-AI/bs-vision-ocr-heldout-v01) |
 | 📖 Odluke, registar, roadmap | [BH-LANGUAGE-AI](https://github.com/BH-Language-AI) (interni plan) |
